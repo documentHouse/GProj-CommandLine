@@ -36,7 +36,6 @@
 		4989C2F41456003300D3E52A /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		4989C2F51456003D00D3E52A /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
-		A170463414565882003E9D7D /* ProjLocations.gproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ProjLocations.gproj; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +77,6 @@
 				4989C2F21455FFBF00D3E52A /* MenuSystem.cpp */,
 				4989C2F41456003300D3E52A /* Menu.h */,
 				4989C2F51456003D00D3E52A /* Menu.cpp */,
-				A170463414565882003E9D7D /* ProjLocations.gproj */,
 				A170463614565C00003E9D7D /* LocationsMenu.h */,
 				A170463714565C0F003E9D7D /* LocationsMenu.cpp */,
 			);

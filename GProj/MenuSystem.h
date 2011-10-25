@@ -12,6 +12,7 @@
 #define GProj_MenuSystem_h
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "CoreFoundation/CFBundle.h"
 #include "Menu.h"
@@ -32,6 +33,9 @@ class MenuSystem {
     vector<Menu *> menus;
     
     static MenuSystem *menuSystem;
+
+    CFBundleRef bundleRef;
+    CFStringRef locationsURLString;
     
     // The only access to the singleton is through the sharedMenuSystem()
     // factory method.
@@ -41,6 +45,8 @@ class MenuSystem {
 public:
 
     static MenuSystem *sharedMenuSystem();
+    
+    ~MenuSystem();
     
     // Load the initial interface through the first menu
     void start();
