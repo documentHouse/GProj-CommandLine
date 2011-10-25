@@ -6,10 +6,17 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include "Menu.h"
+
 
 #ifndef GProj_MenuSystem_h
 #define GProj_MenuSystem_h
+
+#include <iostream>
+#include <vector>
+#include "CoreFoundation/CFBundle.h"
+#include "Menu.h"
+#include "LocationsMenu.h"
+using namespace std;
 
 class MenuSystem {
     
@@ -21,14 +28,23 @@ class MenuSystem {
     // Holds the current menu on the screen
     Menu *currentMenu;
 
+    // Holds all of the menus that were initialized
+    vector<Menu *> menus;
+    
     static MenuSystem *menuSystem;
     
+    // The only access to the singleton is through the sharedMenuSystem()
+    // factory method.
     MenuSystem();
     MenuSystem(const MenuSystem &);
     MenuSystem &operator=(const MenuSystem &);
 public:
 
     static MenuSystem *sharedMenuSystem();
+    
+    // Load the initial interface through the first menu
+    void start();
+    
     // Allows Menu Subclass to access global data from MenuSystem
     friend class Menu;
 };

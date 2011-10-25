@@ -6,18 +6,20 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-class MenuSystem;
-
 #ifndef GProj_Menu_h
 #define GProj_Menu_h
 
-class Menu {
+#include <iostream>
+#include <string>
+class MenuSystem;
 
-private:
-    MenuSystem *_menuSystem;
+class Menu {
     
+    MenuSystem *_menuSystem;
 public:
     Menu(MenuSystem *menuSystem);
+    virtual void startInterface();
+    virtual int description();
 };
 
 #endif

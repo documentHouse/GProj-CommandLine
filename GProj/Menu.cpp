@@ -6,11 +6,24 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include <iostream>
 #include "Menu.h"
 #include "MenuSystem.h"
+using namespace std;
 
 Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem)
 {
     _menuSystem->_StateValue = 0;
+}
+
+void Menu::startInterface()
+{
+    cout << "Initial Interface." << endl;
+}
+
+int Menu::description()
+{
+    
+    string Bob("Bob");
+    //return Bob;
+    return 0;
 }

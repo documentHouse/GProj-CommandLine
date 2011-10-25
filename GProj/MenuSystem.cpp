@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include <iostream>
+
 #include "MenuSystem.h"
 
 MenuSystem *MenuSystem::menuSystem = NULL;
@@ -22,6 +22,14 @@ MenuSystem *MenuSystem::sharedMenuSystem()
 
 MenuSystem::MenuSystem()
 {
-    
+    LocationsMenu *locationsMenu = new LocationsMenu(this);
+    currentMenu = locationsMenu;
+    menus.push_back(locationsMenu);
 }
 
+
+void MenuSystem::start()
+{
+    cout << "Starting..." << endl;
+    currentMenu->startInterface();
+}
