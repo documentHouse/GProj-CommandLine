@@ -1,0 +1,1 @@
+This project is a command line application that provides a quick way to access the folder a git controlled project. The intended use if for a Mac OS X terminal to call the executable on start up to get the user to a given project directory as soon as possible. 
