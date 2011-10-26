@@ -46,6 +46,10 @@ MenuSystem::MenuSystem()
 
 MenuSystem::~MenuSystem()
 {
+    // Destroy all the menus
+    for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
+        delete *it;
+    
     locationsFileOut->close();
     delete locationsFileOut;
     
@@ -53,22 +57,27 @@ MenuSystem::~MenuSystem()
     delete locationsFileIn;
 }
 
-void MenuSystem::startProcessingLoop()
+
+void MenuSystem::processingLoop()
 {
     cout << "Processing..." << endl;
+    string input = "Input string";
     
     MenuSignal signal;
     do {
-        
-        signal = KILL;
-        
+        currentMenu->processInput(input);
+        signal = currentMenu->signal();
     } while (signal != KILL);
 }
 
 void MenuSystem::start()
 {
     currentMenu->startInterface();
-    this->startProcessingLoop();
+    
+    // Testing the auto_ptr concept
+    //auto_ptr<Menu> autoMenu(new LocationsMenu(this));
+    
+    this->processingLoop();
 }
 
 

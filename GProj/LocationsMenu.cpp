@@ -14,10 +14,15 @@ LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
     
 }
 
+LocationsMenu::~LocationsMenu()
+{
+    cout << "Deleting Menu: " << description() << endl;
+}
+
 void LocationsMenu::startInterface()
 {
     cout << "Here are the locations:" << endl;
-    system("cd /Users");
+    //system("cd /Users");
 }
 
 string LocationsMenu::description()
@@ -25,4 +30,10 @@ string LocationsMenu::description()
     return string("Locations");
 }
 
-
+void LocationsMenu::processInput(string inputString)
+{
+    cout << "Menu: " << description() << endl << " Input String: " << inputString << endl; 
+    static int sel = 0;
+    if(++sel%3 == 0)
+        signalKill();
+}

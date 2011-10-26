@@ -10,6 +10,7 @@
 #define GProj_MenuSignal_h
 
 enum MenuSignal {
+     WAITING,
      PROCESS,
      CHANGE,
      KILL

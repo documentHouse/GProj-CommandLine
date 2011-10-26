@@ -15,9 +15,31 @@ Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCES
     _menuSystem->_StateValue = 0;
 }
 
+Menu::~Menu()
+{
+    cout << "Deleting Menu: " << description() << endl;
+}
+
+void Menu::signalProcess()
+{
+    _menuSignal = PROCESS;
+}
+
+void Menu::signalChange()
+{
+    _menuSignal = CHANGE;
+}
+
+void Menu::signalKill()
+{
+    cout << "Killing Menu: " << description() << endl;
+    _menuSignal = KILL;
+}
+
 void Menu::startInterface()
 {
-    cout << "Initial Interface." << endl;
+    _menuSignal = PROCESS;
+    cout << "Base Menu Interface" << endl;
 }
 
 string Menu::description()
@@ -27,10 +49,18 @@ string Menu::description()
 
 void Menu::processInput(string inputString)
 {
-    
+    ;
 }
 
 MenuSignal Menu::signal()
 {
-    return _menuSignal;
+    // The menu is still alive so we put the menu in the 
+    // waiting state and tell the MenuSystem to change
+    if(_menuSignal == CHANGE)
+    {
+        _menuSignal = WAITING;
+        return CHANGE;
+    }
+    else
+        return _menuSignal;
 }

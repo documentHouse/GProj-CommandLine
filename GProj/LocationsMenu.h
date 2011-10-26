@@ -20,9 +20,10 @@ class LocationsMenu : public Menu {
     
 public:
     LocationsMenu(MenuSystem *menuSystem);
-    
+    ~LocationsMenu();
     void startInterface();
     string description();
+    void processInput(string inputString);
 };
 
 #endif

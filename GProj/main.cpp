@@ -21,6 +21,7 @@ int main (int argc, const char * argv[])
     {
         MenuSystem *menuSystem = MenuSystem::sharedMenuSystem();
         menuSystem->start();
+        delete menuSystem;
     }
     // Starting the GUI version of the application
     else if (argc == 2)

@@ -17,10 +17,17 @@ using namespace std;
 class MenuSystem;
 
 class Menu {
-    MenuSystem *_menuSystem;
+private:
     MenuSignal _menuSignal;
+protected:
+    MenuSystem *_menuSystem;
+    
+    void signalProcess();
+    void signalKill();
+    void signalChange();
 public:
     Menu(MenuSystem *menuSystem);
+    virtual ~Menu();
     virtual void startInterface();
     virtual string description();
     virtual void processInput(string inputString);

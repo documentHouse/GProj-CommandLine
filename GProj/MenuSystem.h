@@ -43,15 +43,15 @@ class MenuSystem {
     // The only access to the singleton is through the sharedMenuSystem()
     // factory method.
     MenuSystem();
-    ~MenuSystem();
+    
     MenuSystem(const MenuSystem &);
     MenuSystem &operator=(const MenuSystem &);
     
-    void startProcessingLoop();
-    
+    void processingLoop();
 public:
 
     static MenuSystem *sharedMenuSystem();
+    ~MenuSystem();
     
     // Load the initial interface through the first menu
     void start();
