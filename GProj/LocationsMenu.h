@@ -22,7 +22,7 @@ public:
     LocationsMenu(MenuSystem *menuSystem);
     
     void startInterface();
-    int description();
+    string description();
 };
 
 #endif

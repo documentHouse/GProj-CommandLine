@@ -11,25 +11,24 @@
 #include "MenuSystem.h"
 using namespace std;
 
+static const char *guiString = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
 {
 
+    // Starting the command line version of the application
     if(argc == 1)
     {
-        cout << "Executing command line gproj" << endl;
         MenuSystem *menuSystem = MenuSystem::sharedMenuSystem();
         menuSystem->start();
-    
     }
+    // Starting the GUI version of the application
     else if (argc == 2)
-    {
-        const char *guiString = "gui";
         if(strncmp(argv[1], guiString, strlen(guiString)) == 0)
-            cout << "Executing gui gproj" << endl;
+            cout << "Executing GProj GUI" << endl;
         else
             usageStatement();
-    }
+    // Syntax for invoking this application is incorrect
     else
         usageStatement();
     

@@ -16,13 +16,13 @@ LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 
 void LocationsMenu::startInterface()
 {
-    Menu::startInterface();
     cout << "Here are the locations:" << endl;
+    system("cd /Users");
 }
 
-int LocationsMenu::description()
+string LocationsMenu::description()
 {
-    return 0;
+    return string("Locations");
 }
 
 

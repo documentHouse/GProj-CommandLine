@@ -38,6 +38,7 @@
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
+		A1F230901457A626001BE614 /* MenuSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSignal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +80,7 @@
 				4989C2F51456003D00D3E52A /* Menu.cpp */,
 				A170463614565C00003E9D7D /* LocationsMenu.h */,
 				A170463714565C0F003E9D7D /* LocationsMenu.cpp */,
+				A1F230901457A626001BE614 /* MenuSignal.h */,
 			);
 			path = GProj;
 			sourceTree = "<group>";

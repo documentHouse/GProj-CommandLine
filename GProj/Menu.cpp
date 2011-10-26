@@ -10,7 +10,7 @@
 #include "MenuSystem.h"
 using namespace std;
 
-Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem)
+Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCESS)
 {
     _menuSystem->_StateValue = 0;
 }
@@ -20,10 +20,17 @@ void Menu::startInterface()
     cout << "Initial Interface." << endl;
 }
 
-int Menu::description()
+string Menu::description()
+{
+    return string("Menu");
+}
+
+void Menu::processInput(string inputString)
 {
     
-    string Bob("Bob");
-    //return Bob;
-    return 0;
+}
+
+MenuSignal Menu::signal()
+{
+    return _menuSignal;
 }

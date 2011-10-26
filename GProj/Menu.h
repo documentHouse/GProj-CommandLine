@@ -9,17 +9,22 @@
 #ifndef GProj_Menu_h
 #define GProj_Menu_h
 
-#include <iostream>
 #include <string>
+#include <iostream>
+#include "MenuSignal.h"
+using namespace std;
+
 class MenuSystem;
 
 class Menu {
-    
     MenuSystem *_menuSystem;
+    MenuSignal _menuSignal;
 public:
     Menu(MenuSystem *menuSystem);
     virtual void startInterface();
-    virtual int description();
+    virtual string description();
+    virtual void processInput(string inputString);
+    MenuSignal signal();
 };
 
 #endif

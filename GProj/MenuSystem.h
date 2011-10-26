@@ -14,12 +14,13 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "CoreFoundation/CFBundle.h"
 #include "Menu.h"
 #include "LocationsMenu.h"
 using namespace std;
 
 class MenuSystem {
+    
+    static const string LOCATIONSFILENAME;
     
     // Holds global data that each menu can set and
     // refer to.
@@ -34,19 +35,23 @@ class MenuSystem {
     
     static MenuSystem *menuSystem;
 
-    CFBundleRef bundleRef;
-    CFStringRef locationsURLString;
+    // Handle reading and writing from the file containing the locations of the
+    // git projects
+    ofstream *locationsFileOut;
+    ifstream *locationsFileIn;
     
     // The only access to the singleton is through the sharedMenuSystem()
     // factory method.
     MenuSystem();
+    ~MenuSystem();
     MenuSystem(const MenuSystem &);
     MenuSystem &operator=(const MenuSystem &);
+    
+    void startProcessingLoop();
+    
 public:
 
     static MenuSystem *sharedMenuSystem();
-    
-    ~MenuSystem();
     
     // Load the initial interface through the first menu
     void start();

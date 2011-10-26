@@ -9,6 +9,7 @@
 
 #include "MenuSystem.h"
 
+const string MenuSystem::LOCATIONSFILENAME = "Locations.gproj";
 MenuSystem *MenuSystem::menuSystem = NULL;
 
 MenuSystem *MenuSystem::sharedMenuSystem()
@@ -20,24 +21,24 @@ MenuSystem *MenuSystem::sharedMenuSystem()
     return menuSystem;
 }
 
+/*
+string line;
+while (!locationsFileIn->eof()) {
+    getline(*locationsFileIn, line);
+    cout << line << endl;
+    }
+*/
+ 
 MenuSystem::MenuSystem()
 {
     
-    ofstream locationsFile;
-    locationsFile.open("Locations.gproj");
-    locationsFile << "Hi, this is the first text" << endl;
-    locationsFile << "Here is some more text" << endl;
-    locationsFile.close();
+    // Setup the file we write locations to
+    locationsFileOut = new ofstream(LOCATIONSFILENAME.c_str(),ios::out);
+     
+    // Setup the file we read locations from
+    locationsFileIn = new ifstream(LOCATIONSFILENAME.c_str(),ios::in);
     
-    ifstream locations;
-    string line;
-    locations.open("Locations.gproj");
-    while (!locations.eof()) {
-        getline(locations, line);
-        cout << line << endl;
-    }
-    locations.close();
-    
+    // Set up the initial menu for the user
     LocationsMenu *locationsMenu = new LocationsMenu(this);
     currentMenu = locationsMenu;
     menus.push_back(locationsMenu);
@@ -45,13 +46,29 @@ MenuSystem::MenuSystem()
 
 MenuSystem::~MenuSystem()
 {
+    locationsFileOut->close();
+    delete locationsFileOut;
+    
+    locationsFileIn->close();
+    delete locationsFileIn;
+}
 
+void MenuSystem::startProcessingLoop()
+{
+    cout << "Processing..." << endl;
+    
+    MenuSignal signal;
+    do {
+        
+        signal = KILL;
+        
+    } while (signal != KILL);
 }
 
 void MenuSystem::start()
 {
-    cout << "Starting..." << endl;
     currentMenu->startInterface();
+    this->startProcessingLoop();
 }
 
 
