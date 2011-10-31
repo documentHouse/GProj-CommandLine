@@ -14,25 +14,29 @@
 char *CString::stringBuf = new char[INITIAL_STRING_BUFFER_SIZE];
 size_t CString::stringBufSize = INITIAL_STRING_BUFFER_SIZE;
 
-CString::CString()
+CString::CString() : cfstring(NULL)
 {
     
 }
 
-CString::CString(CString &cString)
+CString::CString(CString &cString) : cfstring(cString.cfstring)
 {
-    
+    CFRetain(cfstring);
 }
 
-CString::CString(CFStringRef foundationString)
+CString::CString(CFStringRef foundationString) : cfstring(foundationString)
 {
-    
+    CFRetain(cfstring);
+}
+
+CString::~CString()
+{
+    CFRelease(cfstring);
 }
 
 const char *CString::createCString()
 {
-    
-    return NULL;
+    return CString::createCString(cfstring);
 }
 
 const char *CString::createCString(CFStringRef foundationString)
@@ -42,12 +46,19 @@ const char *CString::createCString(CFStringRef foundationString)
     {
         delete []stringBuf;
         stringBuf = new char[foundationStringSize + INITIAL_STRING_BUFFER_SIZE];
-        stringBufSize = foundationStringSize;
+        stringBufSize = foundationStringSize + INITIAL_STRING_BUFFER_SIZE;
     }
     
-    char *newCString = new char[found]
     
-    return NULL;
+    CFStringGetCString(foundationString, stringBuf, stringBufSize, kCFStringEncodingUTF8);
+    
+    size_t newCStringSize = strlen(stringBuf);
+    
+    char *newCString = new char[newCStringSize+1];
+    
+    strcpy(newCString, stringBuf);
+    
+    return newCString;
 }
 
 CString::operator const char*() const

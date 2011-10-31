@@ -12,12 +12,14 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 class CString {
+    CFStringRef cfstring;
     static char *stringBuf;
     static size_t stringBufSize;
 public:
     CString();
     CString(CString &cString);
     CString(CFStringRef foundationString);
+    ~CString();
     const char *createCString();
     static const char *createCString(CFStringRef foundationString);
     operator const char *() const;

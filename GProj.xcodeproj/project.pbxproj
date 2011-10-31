@@ -11,7 +11,6 @@
 		4989C2EB1455FAEA00D3E52A /* GProj.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4989C2EA1455FAEA00D3E52A /* GProj.1 */; };
 		4989C2F31455FFBF00D3E52A /* MenuSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F21455FFBF00D3E52A /* MenuSystem.cpp */; };
 		4989C2F61456003D00D3E52A /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F51456003D00D3E52A /* Menu.cpp */; };
-		49FA9105145AF33800DDD817 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FA9104145AF33800DDD817 /* Foundation.framework */; };
 		49FA9129145AFB3D00DDD817 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */; };
 		49FA912C145B068000DDD817 /* CString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49FA912B145B068000DDD817 /* CString.cpp */; };
 		A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A170463714565C0F003E9D7D /* LocationsMenu.cpp */; };
@@ -39,7 +38,6 @@
 		4989C2F41456003300D3E52A /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		4989C2F51456003D00D3E52A /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
-		49FA9104145AF33800DDD817 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		49FA912A145B067100DDD817 /* CString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CString.h; sourceTree = "<group>"; };
 		49FA912B145B068000DDD817 /* CString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CString.cpp; sourceTree = "<group>"; };
@@ -54,7 +52,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FA9129145AFB3D00DDD817 /* CoreFoundation.framework in Frameworks */,
-				49FA9105145AF33800DDD817 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */,
-				49FA9104145AF33800DDD817 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
