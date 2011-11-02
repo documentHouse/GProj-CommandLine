@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "CString.h"
+using namespace std;
 
 #define INITIAL_STRING_BUFFER_SIZE 1000
 
@@ -34,12 +35,7 @@ CString::~CString()
     CFRelease(cfstring);
 }
 
-const char *CString::createCString()
-{
-    return CString::createCString(cfstring);
-}
-
-const char *CString::createCString(CFStringRef foundationString)
+void CString::loadCStringBuf(CFStringRef foundationString)
 {
     size_t foundationStringSize = CFStringGetLength(foundationString);
     if(foundationStringSize > stringBufSize)
@@ -49,8 +45,24 @@ const char *CString::createCString(CFStringRef foundationString)
         stringBufSize = foundationStringSize + INITIAL_STRING_BUFFER_SIZE;
     }
     
-    
     CFStringGetCString(foundationString, stringBuf, stringBufSize, kCFStringEncodingUTF8);
+}
+
+
+void CString::show(CFStringRef foundationString)
+{
+    cout << CString::getCString(foundationString) << endl;
+}
+
+const char *CString::createCString()
+{
+    return CString::createCString(cfstring);
+}
+
+const char *CString::createCString(CFStringRef foundationString)
+{
+    
+    CString::loadCStringBuf(foundationString);
     
     size_t newCStringSize = strlen(stringBuf);
     
@@ -61,10 +73,16 @@ const char *CString::createCString(CFStringRef foundationString)
     return newCString;
 }
 
-CString::operator const char*() const
+const char *CString::getCString(CFStringRef foundationString)
 {
+    CString::loadCStringBuf(foundationString);
     
-    return NULL;
+    return stringBuf;
+}
+
+CString::operator const char*()
+{
+    return createCString();
 }
 
 

@@ -6,33 +6,25 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include <CoreFoundation/CoreFoundation.h>
 #include <iostream>
 #include <string>
 #include "MenuSystem.h"
+#include "CString.h"
+#include "sys/stat.h"
 using namespace std;
 
 static const char *GUISTRING = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
 {
-
     
-    CFBundleRef bundle = CFBundleGetMainBundle();
-    CFArrayRef resourceURLs = CFBundleCopyResourceURLsOfType(bundle, NULL, NULL);
-    char stringBuf[1000];
-    
-    for(int i = 0; i < CFArrayGetCount(resourceURLs); i++)
-    {
-        CFURLRef url = (CFURLRef)CFArrayGetValueAtIndex(resourceURLs,i);
-        CFStringRef urlString = CFURLGetString(url);
-
-        if(CFStringGetCString(urlString, stringBuf, 1000, kCFStringEncodingUTF8))
-            printf("Stringbuf %s\n",stringBuf);
-        else
-            printf("The string failed to convert again\n");
-    }
-     
+    int ret;
+    ret = mkdir("/Users/andrew/BundleDir/MyDir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
+    printf("The value of the return value is %d\n",ret);
+    ret = mkdir("/Users/andrew/BundleDir/MyDir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
+    printf("The value of the return value is %d\n",ret);
+    ret = mkdir("/Users/andrew/BundleDir/Space Dir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
+    printf("The value of the return value is %d\n",ret);
     
     // Starting the command line version of the application
     if(argc == 1)
@@ -55,7 +47,4 @@ int main (int argc, const char * argv[])
     return 0;
 }
 
-void usageStatement()
-{
-    cout << "Usage: gproj [gui]" << endl;
-}
+void usageStatement() { cout << "Usage: gproj [gui]" << endl; }

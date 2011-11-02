@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		497511481461D93C001F0A25 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497511471461D93C001F0A25 /* CoreFoundation.framework */; };
+		4975114B1461DCF7001F0A25 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4975114A1461DCF7001F0A25 /* CoreServices.framework */; };
 		4989C2E91455FAEA00D3E52A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2E81455FAEA00D3E52A /* main.cpp */; };
 		4989C2EB1455FAEA00D3E52A /* GProj.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4989C2EA1455FAEA00D3E52A /* GProj.1 */; };
 		4989C2F31455FFBF00D3E52A /* MenuSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F21455FFBF00D3E52A /* MenuSystem.cpp */; };
 		4989C2F61456003D00D3E52A /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F51456003D00D3E52A /* Menu.cpp */; };
-		49FA9129145AFB3D00DDD817 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */; };
 		49FA912C145B068000DDD817 /* CString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49FA912B145B068000DDD817 /* CString.cpp */; };
 		A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A170463714565C0F003E9D7D /* LocationsMenu.cpp */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		497511451461D845001F0A25 /* GistFileSystemAccess */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GistFileSystemAccess; sourceTree = "<group>"; };
+		497511471461D93C001F0A25 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		4975114A1461DCF7001F0A25 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		4989C2E41455FAEA00D3E52A /* GProj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GProj; sourceTree = BUILT_PRODUCTS_DIR; };
 		4989C2E81455FAEA00D3E52A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4989C2EA1455FAEA00D3E52A /* GProj.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GProj.1; sourceTree = "<group>"; };
@@ -38,7 +42,6 @@
 		4989C2F41456003300D3E52A /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		4989C2F51456003D00D3E52A /* Menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
-		49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		49FA912A145B067100DDD817 /* CString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CString.h; sourceTree = "<group>"; };
 		49FA912B145B068000DDD817 /* CString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CString.cpp; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
@@ -51,16 +54,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49FA9129145AFB3D00DDD817 /* CoreFoundation.framework in Frameworks */,
+				4975114B1461DCF7001F0A25 /* CoreServices.framework in Frameworks */,
+				497511481461D93C001F0A25 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		497511491461D944001F0A25 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4975114A1461DCF7001F0A25 /* CoreServices.framework */,
+				497511471461D93C001F0A25 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4989C2D91455FAEA00D3E52A = {
 			isa = PBXGroup;
 			children = (
+				497511491461D944001F0A25 /* Frameworks */,
 				4989C2E71455FAEA00D3E52A /* GProj */,
 				4989C2E51455FAEA00D3E52A /* Products */,
 			);
@@ -77,7 +91,6 @@
 		4989C2E71455FAEA00D3E52A /* GProj */ = {
 			isa = PBXGroup;
 			children = (
-				49FA9107145AF34100DDD817 /* Frameworks */,
 				4989C2FB145615B100D3E52A /* Images For Cocoa */,
 				4989C2E81455FAEA00D3E52A /* main.cpp */,
 				4989C2EA1455FAEA00D3E52A /* GProj.1 */,
@@ -90,6 +103,7 @@
 				A1F230901457A626001BE614 /* MenuSignal.h */,
 				49FA912A145B067100DDD817 /* CString.h */,
 				49FA912B145B068000DDD817 /* CString.cpp */,
+				497511451461D845001F0A25 /* GistFileSystemAccess */,
 			);
 			path = GProj;
 			sourceTree = "<group>";
@@ -100,14 +114,6 @@
 				4989C2FC145615B100D3E52A /* images.jpeg */,
 			);
 			path = "Images For Cocoa";
-			sourceTree = "<group>";
-		};
-		49FA9107145AF34100DDD817 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				49FA9128145AFB3D00DDD817 /* CoreFoundation.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

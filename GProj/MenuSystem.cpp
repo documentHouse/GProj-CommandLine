@@ -8,8 +8,9 @@
 
 
 #include "MenuSystem.h"
+#include "sys/stat.h"
 
-const string MenuSystem::LOCATIONSFILENAME = "Locations.gproj";
+const string MenuSystem::LOCATIONSFILENAME = "Locs/Locations.gproj";
 MenuSystem *MenuSystem::menuSystem = NULL;
 
 MenuSystem *MenuSystem::sharedMenuSystem()
@@ -34,7 +35,13 @@ MenuSystem::MenuSystem()
     
     // Setup the file we write locations to
     locationsFileOut = new ofstream(LOCATIONSFILENAME.c_str(),ios::out);
-     
+    
+    if(locationsFileOut->fail())
+    {
+        cout << "Failed to open the file: " << LOCATIONSFILENAME << endl;
+        //mkdir("/Users/andrew",S_IFDIR);
+    }
+    
     // Setup the file we read locations from
     locationsFileIn = new ifstream(LOCATIONSFILENAME.c_str(),ios::in);
     
