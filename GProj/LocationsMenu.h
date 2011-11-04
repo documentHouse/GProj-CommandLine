@@ -13,11 +13,15 @@
 
 #include <iostream>
 #include <string>
-#include "Menu.h"
+#include <vector>
+
+class MenuSystem;
+class Menu;
+
 using namespace std;
 
 class LocationsMenu : public Menu {
-    
+    vector<string> _locations;
 public:
     LocationsMenu(MenuSystem *menuSystem);
     ~LocationsMenu();

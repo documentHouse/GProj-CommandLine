@@ -7,11 +7,13 @@
 //
 
 
+#include "MenuSystem.h"
+#include "Menu.h"
 #include "LocationsMenu.h"
 
 LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
-    
+    _locations = _menuSystem->createLocations();
 }
 
 LocationsMenu::~LocationsMenu()
@@ -33,6 +35,11 @@ string LocationsMenu::description()
 void LocationsMenu::processInput(string inputString)
 {
     cout << "Menu: " << description() << endl << " Input String: " << inputString << endl; 
+    
+    
+    
+    
+    
     static int sel = 0;
     if(++sel%3 == 0)
         signalKill();

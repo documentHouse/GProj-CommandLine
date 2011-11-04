@@ -8,9 +8,11 @@
 
 
 #include "MenuSystem.h"
+#include "Menu.h"
+#include "LocationsMenu.h"
 #include "sys/stat.h"
 
-const string MenuSystem::LOCATIONSFILENAME = "Locs/Locations.gproj";
+const string MenuSystem::LOCATIONSFILENAME = "Locations.gproj";
 MenuSystem *MenuSystem::menuSystem = NULL;
 
 MenuSystem *MenuSystem::sharedMenuSystem()
@@ -38,12 +40,17 @@ MenuSystem::MenuSystem()
     
     if(locationsFileOut->fail())
     {
-        cout << "Failed to open the file: " << LOCATIONSFILENAME << endl;
-        //mkdir("/Users/andrew",S_IFDIR);
+        cout << "Failed to open the following file for writing: " << LOCATIONSFILENAME << endl;
+        //mkdir("/Users/andrew/Library/Application Support/GProj",S_IFDIR);
     }
     
     // Setup the file we read locations from
     locationsFileIn = new ifstream(LOCATIONSFILENAME.c_str(),ios::in);
+    
+    if(locationsFileIn->fail())
+    {
+        cout << "Failed to open the following file for reading: " << LOCATIONSFILENAME << endl;
+    }
     
     // Set up the initial menu for the user
     LocationsMenu *locationsMenu = new LocationsMenu(this);
@@ -67,12 +74,17 @@ MenuSystem::~MenuSystem()
 
 void MenuSystem::processingLoop()
 {
-    cout << "Processing..." << endl;
-    string input = "Input string";
-    
+
+    string input;
     MenuSignal signal;
+    
     do {
+
+        cout << ">> ";
+        //cin >> input;
+        getline(cin, input);
         currentMenu->processInput(input);
+
         signal = currentMenu->signal();
     } while (signal != KILL);
 }
@@ -87,4 +99,41 @@ void MenuSystem::start()
     this->processingLoop();
 }
 
+vector<string> MenuSystem::createLocations()
+{
+    vector<string> locationsVector;
+    
+    if(locationsFileIn->bad())
+        return locationsVector;
+    else
+    {
+        string location;
+        while (locationsFileIn->good()){
+            getline(*locationsFileIn, location);
+            locationsVector.push_back(location);
+        }
+        
+        locationsFileIn->clear();
+        locationsFileIn->seekg(0,ios::beg);
+        
+        return locationsVector;
+    }
+}
 
+bool MenuSystem::storeLocations(vector<string> locations)
+{
+    if(locationsFileOut->bad()){
+        cout << "The locations file could not be updated..." << endl;
+        return false;
+    }
+    else{
+        for(vector<string>::iterator it = locations.begin(); it != locations.end(); it++)
+        {
+            if(locationsFileOut->good())
+                *locationsFileOut << *it;
+            else
+                return false;
+        }
+        return true;
+    }
+}
