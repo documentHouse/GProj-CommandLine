@@ -14,8 +14,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "Menu.h"
-#include "LocationsMenu.h"
+
+class Menu;
+
 using namespace std;
 
 class MenuSystem {
@@ -55,6 +56,11 @@ public:
     
     // Load the initial interface through the first menu
     void start();
+    
+    // Get the locations from the locations file
+    vector<string> createLocations();
+    
+    bool storeLocations(vector<string> locations);
     
     // Allows Menu Subclass to access global data from MenuSystem
     friend class Menu;

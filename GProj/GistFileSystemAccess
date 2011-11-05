@@ -1,0 +1,12 @@
+CFBundleRef bundle = CFBundleGetMainBundle();
+    CFArrayRef resourceURLs = CFBundleCopyResourceURLsOfType(bundle, NULL, NULL);
+    
+    for(int i = 0; i < CFArrayGetCount(resourceURLs); i++)
+    {
+        CFURLRef url = (CFURLRef)CFArrayGetValueAtIndex(resourceURLs,i);
+        CFStringRef urlString = CFURLGetString(url);
+        CString::show(urlString);
+    }
+     
+    //CFBundleRef dirBundle = NULL;
+    //CFURLRef bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/Users/andrew/BundleDir/MyDir"), kCFURLPOSIXPathStyle, TRUE);
