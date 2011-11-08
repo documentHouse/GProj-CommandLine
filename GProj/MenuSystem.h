@@ -51,6 +51,12 @@ class MenuSystem {
     void processingLoop();
 public:
 
+    typedef enum MenuType{
+        LOCATION,
+        ADD,
+        REMOVE,
+    }MenuType;
+    
     static MenuSystem *sharedMenuSystem();
     ~MenuSystem();
     

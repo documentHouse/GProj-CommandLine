@@ -8,33 +8,30 @@
 
 #include <iostream>
 #include <string>
+#include <unistd.h>
+#include <term.h>
 #include "MenuSystem.h"
 #include "CString.h"
 #include "sys/stat.h"
 using namespace std;
 
 
-void callback();
-void callback(){
-    printf("I am a registered callback.\n");
-    //chdir("/Users/andrew/nachos");
-    //system("bash command pwd");
-    //system("cd /Users/andrew/nachos");
-    //system("pwd");
-    //system("ls");
-    //setenv("PWD", "/Users/andrew", true);
-    //system("pwd");
-    system("bash");
-    system("exit");
-}
+bool openBash(const char *directory);
 
 static const char *GUISTRING = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
 {
+    if (!cur_term)
+    {
+        int result;
+        setupterm( NULL, STDOUT_FILENO, &result );
+        if (result <= 0) return 0;
+    }
     
-    atexit(callback);
+    putp(clear_screen);
     
+/*
     int ret;
     ret = mkdir("/Users/andrew/BundleDir/MyDir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
@@ -42,8 +39,10 @@ int main (int argc, const char * argv[])
     printf("The value of the return value is %d\n",ret);
     ret = mkdir("/Users/andrew/BundleDir/Space Dir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
+ */
     
-    /*
+    
+    
     // Starting the command line version of the application
     if(argc == 1)
     {
@@ -60,9 +59,18 @@ int main (int argc, const char * argv[])
     // Syntax for invoking this application is incorrect
     else
         usageStatement();
-    */
+    
+    //openBash("/Users/andrew/BundleDir");
     
     return 0;
 }
 
 void usageStatement() { cout << "Usage: gproj [gui]" << endl; }
+bool openBash(const char *directory)
+{
+    if(chdir(directory) != 0)
+        return false;
+    if(system("bash") != 0)
+        return false;
+    return true;
+}

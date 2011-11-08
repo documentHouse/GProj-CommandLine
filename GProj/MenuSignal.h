@@ -10,7 +10,7 @@
 #define GProj_MenuSignal_h
 
 enum MenuSignal {
-     WAITING,
+     WAITING, // A default state for menus when they aren't active
      PROCESS,
      CHANGE,
      KILL

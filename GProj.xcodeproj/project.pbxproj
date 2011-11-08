@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4941310B14687B3500827DF6 /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4941310A14687B3500827DF6 /* libncurses.dylib */; };
 		497511481461D93C001F0A25 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 497511471461D93C001F0A25 /* CoreFoundation.framework */; };
 		4975114B1461DCF7001F0A25 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4975114A1461DCF7001F0A25 /* CoreServices.framework */; };
 		4989C2E91455FAEA00D3E52A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2E81455FAEA00D3E52A /* main.cpp */; };
@@ -31,6 +32,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4941310A14687B3500827DF6 /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = usr/lib/libncurses.dylib; sourceTree = SDKROOT; };
 		497511451461D845001F0A25 /* GistFileSystemAccess */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GistFileSystemAccess; sourceTree = "<group>"; };
 		497511471461D93C001F0A25 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		4975114A1461DCF7001F0A25 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -54,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4941310B14687B3500827DF6 /* libncurses.dylib in Frameworks */,
 				4975114B1461DCF7001F0A25 /* CoreServices.framework in Frameworks */,
 				497511481461D93C001F0A25 /* CoreFoundation.framework in Frameworks */,
 			);
@@ -74,6 +77,7 @@
 		4989C2D91455FAEA00D3E52A = {
 			isa = PBXGroup;
 			children = (
+				4941310A14687B3500827DF6 /* libncurses.dylib */,
 				497511491461D944001F0A25 /* Frameworks */,
 				4989C2E71455FAEA00D3E52A /* GProj */,
 				4989C2E51455FAEA00D3E52A /* Products */,

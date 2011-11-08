@@ -14,6 +14,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unistd.h>
+#include <term.h>
 
 class MenuSystem;
 class Menu;
@@ -22,6 +24,9 @@ using namespace std;
 
 class LocationsMenu : public Menu {
     vector<string> _locations;
+    
+    void displayLocations();
+    bool openShell(const char *directory);
 public:
     LocationsMenu(MenuSystem *menuSystem);
     ~LocationsMenu();

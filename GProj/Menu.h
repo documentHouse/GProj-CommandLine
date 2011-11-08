@@ -11,20 +11,26 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
+#include "MenuSystem.h"
 #include "MenuSignal.h"
 using namespace std;
 
-class MenuSystem;
+//class MenuSystem;
 
 class Menu {
 private:
     MenuSignal _menuSignal;
+    stringstream _stringStream;
 protected:
     MenuSystem *_menuSystem;
     
     void signalProcess();
     void signalKill();
-    void signalChange();
+    void signalChange(MenuSystem::MenuType menuType);
+    
+    bool validateInt(string intString, int *intValue);
+    bool validateChar(string charString, char *charValue);
 public:
     Menu(MenuSystem *menuSystem);
     virtual ~Menu();

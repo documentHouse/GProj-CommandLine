@@ -36,7 +36,7 @@ MenuSystem::MenuSystem()
 {
     
     // Setup the file we write locations to
-    locationsFileOut = new ofstream(LOCATIONSFILENAME.c_str(),ios::out);
+    locationsFileOut = new ofstream(LOCATIONSFILENAME.c_str(),ios::app);
     
     if(locationsFileOut->fail())
     {
@@ -83,9 +83,18 @@ void MenuSystem::processingLoop()
         cout << ">> ";
         //cin >> input;
         getline(cin, input);
+        
         currentMenu->processInput(input);
 
         signal = currentMenu->signal();
+        
+        if(signal == PROCESS)
+            ;
+        else if(signal == CHANGE)
+            ;
+        else if(signal == KILL)
+            printf("Exiting GProj...\n");
+        
     } while (signal != KILL);
 }
 
@@ -110,7 +119,10 @@ vector<string> MenuSystem::createLocations()
         string location;
         while (locationsFileIn->good()){
             getline(*locationsFileIn, location);
-            locationsVector.push_back(location);
+            // A newline or eof defines a string of length zero. We ignore these since
+            // they can not be a valid directory
+            if(location.length() != 0)
+                locationsVector.push_back(location);
         }
         
         locationsFileIn->clear();
