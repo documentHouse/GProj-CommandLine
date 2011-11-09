@@ -8,29 +8,17 @@
 
 #include <iostream>
 #include <string>
-#include <unistd.h>
-#include <term.h>
 #include "MenuSystem.h"
 #include "CString.h"
 #include "sys/stat.h"
 using namespace std;
 
 
-bool openBash(const char *directory);
-
 static const char *GUISTRING = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
 {
-    if (!cur_term)
-    {
-        int result;
-        setupterm( NULL, STDOUT_FILENO, &result );
-        if (result <= 0) return 0;
-    }
-    
-    putp(clear_screen);
-    
+
 /*
     int ret;
     ret = mkdir("/Users/andrew/BundleDir/MyDir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
@@ -66,11 +54,3 @@ int main (int argc, const char * argv[])
 }
 
 void usageStatement() { cout << "Usage: gproj [gui]" << endl; }
-bool openBash(const char *directory)
-{
-    if(chdir(directory) != 0)
-        return false;
-    if(system("bash") != 0)
-        return false;
-    return true;
-}

@@ -9,6 +9,8 @@
 #ifndef GProj_Menu_h
 #define GProj_Menu_h
 
+#include <curses.h>
+#include <term.h>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -16,7 +18,10 @@
 #include "MenuSignal.h"
 using namespace std;
 
-//class MenuSystem;
+// Convenience macros for use in the processInput(string) method
+#define kill() signalKill();return;
+#define change(TYPE) signalChange(TYPE);return;
+#define process() signalProcess();return;
 
 class Menu {
 private:
@@ -34,6 +39,9 @@ protected:
 public:
     Menu(MenuSystem *menuSystem);
     virtual ~Menu();
+    
+    static void clearScreen();
+
     virtual void startInterface();
     virtual string description();
     virtual void processInput(string inputString);

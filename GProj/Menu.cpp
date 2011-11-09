@@ -10,6 +10,8 @@
 //#include "MenuSystem.h"
 using namespace std;
 
+extern char *getenv();
+
 Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCESS)
 {
     _menuSystem->_StateValue = 0;
@@ -17,7 +19,7 @@ Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCES
 
 Menu::~Menu()
 {
-    cout << "Deleting Menu: " << description() << endl;
+
 }
 
 void Menu::signalProcess()
@@ -32,7 +34,6 @@ void Menu::signalChange(MenuSystem::MenuType menuType)
 
 void Menu::signalKill()
 {
-    cout << "Killing Menu: " << description() << endl;
     _menuSignal = KILL;
 }
 
@@ -67,10 +68,32 @@ bool Menu::validateChar(string charString, char *charValue)
        return true;
 }
 
+void Menu::clearScreen()
+{
+    static bool isSet = false;
+
+    if(!isSet)
+    {
+        int result = 0;
+        
+        if((setupterm(NULL, STDOUT_FILENO, &result) == OK)&&(result == 1))
+            isSet = true;
+        else
+            cout << "Terminal issue" << endl;
+    }
+
+    if(isSet)
+    {
+        putp(clear_screen);
+        cout << flush;
+    }
+}
+
 void Menu::startInterface()
 {
     _menuSignal = PROCESS;
-    cout << "Base Menu Interface" << endl;
+    clearScreen();
+    //cout << "Base Menu Interface" << endl;
 }
 
 string Menu::description()
