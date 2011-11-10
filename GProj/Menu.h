@@ -43,6 +43,7 @@ public:
     static void clearScreen();
 
     virtual void startInterface();
+    virtual void displayMenu();
     virtual string description();
     virtual void processInput(string inputString);
     MenuSignal signal();

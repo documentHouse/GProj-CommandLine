@@ -135,7 +135,7 @@ void MenuSystem::start()
     this->processingLoop();
 }
 
-vector<string> MenuSystem::createLocations()
+vector<string> MenuSystem::updateLocations()
 {
     vector<string> locationsVector;
     

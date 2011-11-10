@@ -96,6 +96,11 @@ void Menu::startInterface()
     //cout << "Base Menu Interface" << endl;
 }
 
+void Menu::displayMenu()
+{
+    
+}
+
 string Menu::description()
 {
     return string("Menu");

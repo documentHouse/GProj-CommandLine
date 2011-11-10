@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 #include "MenuSystem.h"
-#include "CString.h"
 #include "sys/stat.h"
 using namespace std;
 
@@ -29,8 +28,6 @@ int main (int argc, const char * argv[])
     printf("The value of the return value is %d\n",ret);
  */
     
-    
-    
     // Starting the command line version of the application
     if(argc == 1)
     {
@@ -48,7 +45,6 @@ int main (int argc, const char * argv[])
     else
         usageStatement();
     
-    //openBash("/Users/andrew/BundleDir");
     
     return 0;
 }

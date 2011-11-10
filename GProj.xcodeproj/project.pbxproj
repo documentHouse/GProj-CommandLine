@@ -17,6 +17,7 @@
 		49AF9EB0146B16F900DE45A0 /* AddRemoveMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */; };
 		49FA912C145B068000DDD817 /* CString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49FA912B145B068000DDD817 /* CString.cpp */; };
 		A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A170463714565C0F003E9D7D /* LocationsMenu.cpp */; };
+		A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,8 @@
 		49FA912B145B068000DDD817 /* CString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CString.cpp; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
+		A1B23F5D146B7ACD00250EE6 /* MenuOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOption.h; sourceTree = "<group>"; };
+		A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuOption.cpp; sourceTree = "<group>"; };
 		A1F230901457A626001BE614 /* MenuSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSignal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +116,8 @@
 				497511451461D845001F0A25 /* GistFileSystemAccess */,
 				49AF9EAD146B16E600DE45A0 /* AddRemoveMenu.h */,
 				49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */,
+				A1B23F5D146B7ACD00250EE6 /* MenuOption.h */,
+				A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */,
 			);
 			path = GProj;
 			sourceTree = "<group>";
@@ -181,6 +186,7 @@
 				A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */,
 				49FA912C145B068000DDD817 /* CString.cpp in Sources */,
 				49AF9EB0146B16F900DE45A0 /* AddRemoveMenu.cpp in Sources */,
+				A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

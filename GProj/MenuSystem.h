@@ -58,6 +58,7 @@ class MenuSystem {
 public:
 
     typedef enum MenuType{
+        EXIT,
         LOCATION,
         ADDREMOVE,
     }MenuType;
@@ -69,7 +70,7 @@ public:
     void start();
     
     // Get the locations from the locations file
-    vector<string> createLocations();
+    vector<string> updateLocations();
     
     bool storeLocations(vector<string> locations);
     
