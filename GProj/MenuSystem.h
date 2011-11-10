@@ -14,12 +14,50 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <map>
 
 class Menu;
 
 using namespace std;
 
 class MenuSystem {
+    
+public:
+    
+    typedef enum MenuType{
+        EXIT,
+        LOCATION,
+        ADDREMOVE,
+    }MenuType;
+    
+    static MenuSystem *sharedMenuSystem();
+    ~MenuSystem();
+    
+    // Load the initial interface through the first menu
+    void start();
+    
+    // Get the locations from the locations file
+    vector<string> updateLocations();
+    map<string, string> updateConfigurations();
+    
+    // Store the updated set of locations
+    bool storeLocations(vector<string> locations);
+    
+    // Allows Menu Subclass to access global data from MenuSystem
+    friend class Menu;
+
+    
+private:
+    void changeMenu(MenuSystem::MenuType newMenu);
+    
+    // The only access to the singleton is through the sharedMenuSystem()
+    // factory method.
+    MenuSystem();
+    
+    MenuSystem(const MenuSystem &);
+    MenuSystem &operator=(const MenuSystem &);
+    
+    void processingLoop();
     
     static const string LOCATIONS_FILE_NAME;
     static const string CONFIGURATION_FILE_NAME;
@@ -41,41 +79,13 @@ class MenuSystem {
     // git projects
     ofstream *locationsFileOut;
     ifstream *locationsFileIn;
+    bool isLocationsChanged;
     
     // Handle reading and writing from the file containing the configuration data
     // for this application
     ofstream *configurationFileOut;
     ifstream *configurationFileIn;
-    
-    // The only access to the singleton is through the sharedMenuSystem()
-    // factory method.
-    MenuSystem();
-    
-    MenuSystem(const MenuSystem &);
-    MenuSystem &operator=(const MenuSystem &);
-    
-    void processingLoop();
-public:
-
-    typedef enum MenuType{
-        EXIT,
-        LOCATION,
-        ADDREMOVE,
-    }MenuType;
-    
-    static MenuSystem *sharedMenuSystem();
-    ~MenuSystem();
-    
-    // Load the initial interface through the first menu
-    void start();
-    
-    // Get the locations from the locations file
-    vector<string> updateLocations();
-    
-    bool storeLocations(vector<string> locations);
-    
-    // Allows Menu Subclass to access global data from MenuSystem
-    friend class Menu;
+    bool isConfigurationsChanged;
 };
 
 

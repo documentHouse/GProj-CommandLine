@@ -25,6 +25,7 @@ using namespace std;
 
 class Menu {
 private:
+    MenuSystem::MenuType _changeToMenuType;
     MenuSignal _menuSignal;
     stringstream _stringStream;
 protected:
@@ -42,11 +43,12 @@ public:
     
     static void clearScreen();
 
-    virtual void startInterface();
-    virtual void displayMenu();
-    virtual string description();
+    virtual void startInterface() = 0;
+    virtual void displayMenu() = 0;
+    virtual MenuSystem::MenuType menuType() = 0;
     virtual void processInput(string inputString);
     MenuSignal signal();
+    MenuSystem::MenuType changeMenuType();
 };
 
 #endif

@@ -7,9 +7,11 @@
 //
 
 
-#include "MenuSystem.h"
+
 #include "Menu.h"
 #include "LocationsMenu.h"
+
+extern char **environ;
 
 LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
@@ -21,6 +23,14 @@ LocationsMenu::~LocationsMenu()
 {
     for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
         delete *it;
+}
+
+bool LocationsMenu::isOption(int optionInt)
+{
+    if((_locations.size() >= optionInt)&&(optionInt != 0))
+        return true;
+    else
+        return false;
 }
 
 bool LocationsMenu::isOption(char optionChar)
@@ -43,6 +53,8 @@ MenuOption *LocationsMenu::getOption(char optionChar)
 
 void LocationsMenu::updateOptions()
 {
+    MenuOption *addOption = new MenuOption('a',"Add the current directory",MenuSystem::ADDREMOVE);
+    _options.push_back(addOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
     _options.push_back(exitOption);
 }
@@ -54,6 +66,9 @@ void LocationsMenu::displayOptions()
     // so that you can use this context to pass information...
     // Maybe you can handle this locally since what you present in the options 
     // menu may derive from the internal state of the current menu.
+    
+    cout << "Options" << endl;
+    cout << "=======" << endl;
     
     for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
         cout << (*it)->getChar() << ". " << (*it)->getString() << endl;
@@ -67,6 +82,7 @@ void LocationsMenu::displayLocations()
     int position = 0;
     for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
         cout << ++position << ". " << *it << endl;
+    cout << endl;
 }
 
 bool LocationsMenu::openShell(const char *directory)
@@ -76,6 +92,7 @@ bool LocationsMenu::openShell(const char *directory)
     else
     {
         clearScreen();
+        cout << "Opening bash in directory: " << directory << endl;
         system("bash");
         return true;
     }
@@ -95,9 +112,9 @@ void LocationsMenu::displayMenu()
     displayOptions();
 }
 
-string LocationsMenu::description()
+MenuSystem::MenuType LocationsMenu::menuType()
 {
-    return string("Locations");
+    return MenuSystem::LOCATION;
 }
 
 #define printInvalidAndProcess() cout << "Your entry was invalid" << endl;process();
@@ -112,7 +129,8 @@ void LocationsMenu::processInput(string inputString)
 
     if(isValidInt)
     {
-        if((_locations.size() >= menuChoiceInt)&&(menuChoiceInt != 0))
+        //if((_locations.size() >= menuChoiceInt)&&(menuChoiceInt != 0))
+        if(isOption(menuChoiceInt))
         {
             openShell(_locations[menuChoiceInt - 1].c_str());
             displayMenu();
@@ -135,8 +153,10 @@ void LocationsMenu::processInput(string inputString)
             }
             else
             {
-                // You will probably call change(MenuType) here to move to a different menu
-                process();
+                cout << "The PWD: " << getenv("PWD") << endl;
+
+                // Assuming there are no more menus for now
+                change(MenuSystem::ADDREMOVE);
             }
         }
         else

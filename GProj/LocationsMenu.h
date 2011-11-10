@@ -18,7 +18,7 @@
 #include <term.h>
 #include "MenuOption.h"
 
-class MenuSystem;
+#include "MenuSystem.h"
 class Menu;
 
 using namespace std;
@@ -26,7 +26,8 @@ using namespace std;
 class LocationsMenu : public Menu {
     vector<string> _locations;
     vector<MenuOption *> _options;
-    
+
+    bool isOption(int optionInt);
     bool isOption(char optionChar);
     MenuOption *getOption(char optionChar);
     void updateOptions();
@@ -38,7 +39,7 @@ public:
     ~LocationsMenu();
     void startInterface();
     void displayMenu();
-    string description();
+    MenuSystem::MenuType menuType();
     void processInput(string inputString);
 };
 

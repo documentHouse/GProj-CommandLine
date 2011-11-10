@@ -13,11 +13,12 @@ class MenuSystem;
 class Menu;
 
 class AddRemoveMenu : public Menu {
-    
+    string _currentDirectory; 
     
 public:
-    AddRemoveMenu(MenuSystem *menuSystem);
+    AddRemoveMenu(MenuSystem *menuSystem, const string &currentDirectory = "");
     ~AddRemoveMenu();
+    MenuSystem::MenuType menuType();
 };
 
 #endif

@@ -13,6 +13,7 @@
 using namespace std;
 
 
+
 static const char *GUISTRING = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
@@ -27,6 +28,7 @@ int main (int argc, const char * argv[])
     ret = mkdir("/Users/andrew/BundleDir/Space Dir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
  */
+      
     
     // Starting the command line version of the application
     if(argc == 1)

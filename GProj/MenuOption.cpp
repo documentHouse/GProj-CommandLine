@@ -14,12 +14,12 @@ MenuOption::MenuOption(char optionChar,string optionString,MenuSystem::MenuType 
     _optionChar = optionChar;
     _optionString = optionString;
     _optionValue = optionValue;
-    std::cout << "Creating menuOption: " << _optionChar << std::endl;
+    //std::cout << "Creating menuOption: " << _optionChar << std::endl;
 }
 
 MenuOption::~MenuOption()
 {
-    std::cout << "Destroying menuOption: " << _optionChar << std::endl;    
+    //std::cout << "Destroying menuOption: " << _optionChar << std::endl;    
 }
 
 char MenuOption::getChar()

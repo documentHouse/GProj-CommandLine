@@ -10,6 +10,7 @@
 #include "MenuSystem.h"
 #include "Menu.h"
 #include "LocationsMenu.h"
+#include "AddRemoveMenu.h"
 #include "sys/stat.h"
 
 const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
@@ -24,14 +25,6 @@ MenuSystem *MenuSystem::sharedMenuSystem()
     menuSystem = new MenuSystem;
     return menuSystem;
 }
-
-/*
-string line;
-while (!locationsFileIn->eof()) {
-    getline(*locationsFileIn, line);
-    cout << line << endl;
-    }
-*/
  
 MenuSystem::MenuSystem()
 {
@@ -118,15 +111,17 @@ void MenuSystem::processingLoop()
         if(signal == PROCESS)
             ;
         else if(signal == CHANGE)
-            ;
-        else if(signal == KILL)
-            printf("Exiting GProj...\n");
+            changeMenu(currentMenu->changeMenuType());
+        else// if(signal == KILL)
+            ;//printf("Exiting GProj...\n");
         
     } while (signal != KILL);
 }
 
 void MenuSystem::start()
 {
+    updateConfigurations();
+    
     currentMenu->startInterface();
     
     // Testing the auto_ptr concept
@@ -156,6 +151,74 @@ vector<string> MenuSystem::updateLocations()
         locationsFileIn->seekg(0,ios::beg);
         
         return locationsVector;
+    }
+}
+
+map<string, string> MenuSystem::updateConfigurations()
+{
+    map<string, string> configurations;
+    
+    if(configurationFileIn->bad())
+        return configurations;
+    else
+    {
+        string configString;
+        unsigned long position;
+        string key;
+        string value;
+        while(configurationFileIn->good())
+        {
+            getline(*configurationFileIn, configString);
+            
+            if(configString.length() != 0)
+            {
+                // key and value pairs are seperated by an equal sign
+                // like the following "previous=/Users/andrew"
+                position = configString.find("=");
+                
+                key = configString.substr(0,position);
+                value = configString.substr(position+1);
+                
+                configurations.insert(pair<string, string>(key,value));
+            }
+        }
+        
+        configurationFileIn->clear();
+        configurationFileIn->seekg(0,ios::beg);
+        
+        // Print the key-values parsed from the file
+        //for(map<string,string>::iterator it = configurations.begin(); it != configurations.end(); it++)
+        //    cout << "Key: " << (*it).first << " -- Value: " << (*it).second << endl;
+        
+        return configurations;
+    }
+}
+
+void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
+{
+    if(newMenu != currentMenu->menuType())
+    {
+        bool foundMenuType = false;
+        for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
+            if( (*it)->menuType() == newMenu )
+            {
+                foundMenuType = true;
+                currentMenu = *it;
+                currentMenu->startInterface();
+            }
+
+        // This menu does not currently exist. Create it, add it to the menu list and start it
+        if(!foundMenuType)
+        {
+            if(newMenu == ADDREMOVE)
+            {
+                cout << "We need to create and start the Add-Remove menu and start it" << endl;
+            }
+        }
+    }
+    else
+    {
+        cout << "This menu is currently running..." << endl;
     }
 }
 

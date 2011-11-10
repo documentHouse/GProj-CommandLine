@@ -12,7 +12,7 @@ using namespace std;
 
 extern char *getenv();
 
-Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCESS)
+Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(WAITING)
 {
     _menuSystem->_StateValue = 0;
 }
@@ -30,6 +30,7 @@ void Menu::signalProcess()
 void Menu::signalChange(MenuSystem::MenuType menuType)
 {
     _menuSignal = CHANGE;
+    _changeToMenuType = menuType;
 }
 
 void Menu::signalKill()
@@ -79,7 +80,7 @@ void Menu::clearScreen()
         if((setupterm(NULL, STDOUT_FILENO, &result) == OK)&&(result == 1))
             isSet = true;
         else
-            cout << "Terminal issue" << endl;
+            cout << "Error setting up the terminal" << endl;
     }
 
     if(isSet)
@@ -93,17 +94,11 @@ void Menu::startInterface()
 {
     _menuSignal = PROCESS;
     clearScreen();
-    //cout << "Base Menu Interface" << endl;
 }
 
 void Menu::displayMenu()
 {
     
-}
-
-string Menu::description()
-{
-    return string("Menu");
 }
 
 void Menu::processInput(string inputString)
@@ -122,4 +117,9 @@ MenuSignal Menu::signal()
     }
     else
         return _menuSignal;
+}
+
+MenuSystem::MenuType Menu::changeMenuType()
+{
+    return _changeToMenuType;
 }
