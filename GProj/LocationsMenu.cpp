@@ -18,13 +18,35 @@ LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 
 LocationsMenu::~LocationsMenu()
 {
-    cout << "Deleting Menu: " << description() << endl;
+    
+}
+
+void LocationsMenu::displayLocations()
+{
+    cout << "Locations" << endl;
+    cout << "=========" << endl;
+    
+    int position = 0;
+    for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
+        cout << ++position << ". " << *it << endl;
+}
+
+bool LocationsMenu::openShell(const char *directory)
+{
+    if(chdir(directory) != 0)
+        return false;
+    else
+    {
+        clearScreen();
+        system("bash");
+        return true;
+    }
 }
 
 void LocationsMenu::startInterface()
 {
-    cout << "Here are the locations:" << endl;
-    //system("cd /Users");
+    Menu::startInterface();
+    this->displayLocations();
 }
 
 string LocationsMenu::description()
@@ -32,15 +54,26 @@ string LocationsMenu::description()
     return string("Locations");
 }
 
+
 void LocationsMenu::processInput(string inputString)
 {
-    cout << "Menu: " << description() << endl << " Input String: " << inputString << endl; 
+    // Holds the value entered by the user for this menu
+    int menuChoice;
     
+    if(validateInt(inputString, &menuChoice))
+        ;
+    else
+    {
+        cout << "Your entry was invalid" << endl;
+        process();
+    }
     
+    // If we pick one of the directories then we open the shell in it
+    if((_locations.size() >= menuChoice)&&(menuChoice != 0))
+    {
+        openShell(_locations[menuChoice - 1].c_str());
+        kill();
+    }
     
-    
-    
-    static int sel = 0;
-    if(++sel%3 == 0)
-        signalKill();
+    //change(MenuSystem::LOCATION);
 }

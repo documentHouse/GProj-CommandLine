@@ -7,8 +7,10 @@
 //
 
 #include "Menu.h"
-#include "MenuSystem.h"
+//#include "MenuSystem.h"
 using namespace std;
+
+extern char *getenv();
 
 Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCESS)
 {
@@ -17,7 +19,7 @@ Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(PROCES
 
 Menu::~Menu()
 {
-    cout << "Deleting Menu: " << description() << endl;
+
 }
 
 void Menu::signalProcess()
@@ -25,21 +27,73 @@ void Menu::signalProcess()
     _menuSignal = PROCESS;
 }
 
-void Menu::signalChange()
+void Menu::signalChange(MenuSystem::MenuType menuType)
 {
     _menuSignal = CHANGE;
 }
 
 void Menu::signalKill()
 {
-    cout << "Killing Menu: " << description() << endl;
     _menuSignal = KILL;
+}
+
+bool Menu::validateInt(string intString, int *intValue)
+{
+
+    _stringStream.clear();
+    _stringStream.str(intString);    
+    
+    _stringStream >> *intValue;
+    
+    if(_stringStream.fail())
+        return false;
+    else
+        return true;
+}
+
+bool Menu::validateChar(string charString, char *charValue)
+{
+    // We are looking for one character so the string should have length 1
+    if(charString.length() > 1)
+        return false;
+    
+    _stringStream.clear();
+    _stringStream.str(charString);
+
+    _stringStream >> *charValue;
+    
+    if(_stringStream.fail())
+       return false;
+    else
+       return true;
+}
+
+void Menu::clearScreen()
+{
+    static bool isSet = false;
+
+    if(!isSet)
+    {
+        int result = 0;
+        
+        if((setupterm(NULL, STDOUT_FILENO, &result) == OK)&&(result == 1))
+            isSet = true;
+        else
+            cout << "Terminal issue" << endl;
+    }
+
+    if(isSet)
+    {
+        putp(clear_screen);
+        cout << flush;
+    }
 }
 
 void Menu::startInterface()
 {
     _menuSignal = PROCESS;
-    cout << "Base Menu Interface" << endl;
+    clearScreen();
+    //cout << "Base Menu Interface" << endl;
 }
 
 string Menu::description()

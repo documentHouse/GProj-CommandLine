@@ -21,7 +21,8 @@ using namespace std;
 
 class MenuSystem {
     
-    static const string LOCATIONSFILENAME;
+    static const string LOCATIONS_FILE_NAME;
+    static const string CONFIGURATION_FILE_NAME;
     
     // Holds global data that each menu can set and
     // refer to.
@@ -41,6 +42,11 @@ class MenuSystem {
     ofstream *locationsFileOut;
     ifstream *locationsFileIn;
     
+    // Handle reading and writing from the file containing the configuration data
+    // for this application
+    ofstream *configurationFileOut;
+    ifstream *configurationFileIn;
+    
     // The only access to the singleton is through the sharedMenuSystem()
     // factory method.
     MenuSystem();
@@ -51,6 +57,11 @@ class MenuSystem {
     void processingLoop();
 public:
 
+    typedef enum MenuType{
+        LOCATION,
+        ADDREMOVE,
+    }MenuType;
+    
     static MenuSystem *sharedMenuSystem();
     ~MenuSystem();
     

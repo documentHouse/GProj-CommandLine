@@ -14,27 +14,12 @@
 using namespace std;
 
 
-void callback();
-void callback(){
-    printf("I am a registered callback.\n");
-    //chdir("/Users/andrew/nachos");
-    //system("bash command pwd");
-    //system("cd /Users/andrew/nachos");
-    //system("pwd");
-    //system("ls");
-    //setenv("PWD", "/Users/andrew", true);
-    //system("pwd");
-    system("bash");
-    system("exit");
-}
-
 static const char *GUISTRING = "gui";
 void usageStatement();
 int main (int argc, const char * argv[])
 {
-    
-    atexit(callback);
-    
+
+/*
     int ret;
     ret = mkdir("/Users/andrew/BundleDir/MyDir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
@@ -42,8 +27,10 @@ int main (int argc, const char * argv[])
     printf("The value of the return value is %d\n",ret);
     ret = mkdir("/Users/andrew/BundleDir/Space Dir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
+ */
     
-    /*
+    
+    
     // Starting the command line version of the application
     if(argc == 1)
     {
@@ -60,7 +47,8 @@ int main (int argc, const char * argv[])
     // Syntax for invoking this application is incorrect
     else
         usageStatement();
-    */
+    
+    //openBash("/Users/andrew/BundleDir");
     
     return 0;
 }

@@ -12,7 +12,8 @@
 #include "LocationsMenu.h"
 #include "sys/stat.h"
 
-const string MenuSystem::LOCATIONSFILENAME = "Locations.gproj";
+const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
+const string MenuSystem::CONFIGURATION_FILE_NAME = "Config.gproj";
 MenuSystem *MenuSystem::menuSystem = NULL;
 
 MenuSystem *MenuSystem::sharedMenuSystem()
@@ -36,21 +37,41 @@ MenuSystem::MenuSystem()
 {
     
     // Setup the file we write locations to
-    locationsFileOut = new ofstream(LOCATIONSFILENAME.c_str(),ios::out);
+    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str(),ios::in);
     
     if(locationsFileOut->fail())
     {
-        cout << "Failed to open the following file for writing: " << LOCATIONSFILENAME << endl;
+        cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
         //mkdir("/Users/andrew/Library/Application Support/GProj",S_IFDIR);
     }
     
     // Setup the file we read locations from
-    locationsFileIn = new ifstream(LOCATIONSFILENAME.c_str(),ios::in);
+    locationsFileIn = new ifstream(LOCATIONS_FILE_NAME.c_str());
     
     if(locationsFileIn->fail())
     {
-        cout << "Failed to open the following file for reading: " << LOCATIONSFILENAME << endl;
+        cout << "Failed to open the following file for reading: " << LOCATIONS_FILE_NAME << endl;
     }
+    
+    
+    // Setup the file we write configuration data to
+    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str(),ios::in);
+    
+    if(configurationFileOut->fail())
+    {
+        cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
+    }
+    
+    
+    // Setup the file we write configuration data to
+    configurationFileIn = new ifstream(CONFIGURATION_FILE_NAME.c_str());
+    
+    if(configurationFileIn->fail())
+    {
+        cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
+    }
+     
+    
     
     // Set up the initial menu for the user
     LocationsMenu *locationsMenu = new LocationsMenu(this);
@@ -69,6 +90,12 @@ MenuSystem::~MenuSystem()
     
     locationsFileIn->close();
     delete locationsFileIn;
+    
+    configurationFileOut->close();
+    delete configurationFileOut;
+    
+    configurationFileIn->close();
+    delete configurationFileIn;
 }
 
 
@@ -81,11 +108,20 @@ void MenuSystem::processingLoop()
     do {
 
         cout << ">> ";
-        //cin >> input;
+
         getline(cin, input);
+        
         currentMenu->processInput(input);
 
         signal = currentMenu->signal();
+        
+        if(signal == PROCESS)
+            ;
+        else if(signal == CHANGE)
+            ;
+        else if(signal == KILL)
+            printf("Exiting GProj...\n");
+        
     } while (signal != KILL);
 }
 
@@ -110,7 +146,10 @@ vector<string> MenuSystem::createLocations()
         string location;
         while (locationsFileIn->good()){
             getline(*locationsFileIn, location);
-            locationsVector.push_back(location);
+            // A newline or eof defines a string of length zero. We ignore these since
+            // they can not be a valid directory
+            if(location.length() != 0)
+                locationsVector.push_back(location);
         }
         
         locationsFileIn->clear();
