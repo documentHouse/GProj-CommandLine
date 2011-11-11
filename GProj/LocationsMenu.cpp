@@ -53,7 +53,7 @@ MenuOption *LocationsMenu::getOption(char optionChar)
 
 void LocationsMenu::updateOptions()
 {
-    MenuOption *addOption = new MenuOption('a',"Add the current directory",MenuSystem::ADDREMOVE);
+    MenuOption *addOption = new MenuOption('a',"Add or Remove directories from locations",MenuSystem::ADDREMOVE);
     _options.push_back(addOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
     _options.push_back(exitOption);
@@ -61,11 +61,6 @@ void LocationsMenu::updateOptions()
 
 void LocationsMenu::displayOptions()
 {
-    
-    // You will need to store the MenuType in the description instead of a string
-    // so that you can use this context to pass information...
-    // Maybe you can handle this locally since what you present in the options 
-    // menu may derive from the internal state of the current menu.
     
     cout << "Options" << endl;
     cout << "=======" << endl;
@@ -117,7 +112,7 @@ MenuSystem::MenuType LocationsMenu::menuType()
     return MenuSystem::LOCATION;
 }
 
-#define printInvalidAndProcess() cout << "Your entry was invalid" << endl;process();
+
 void LocationsMenu::processInput(string inputString)
 {
     // Holds the value entered by the user for this menu
@@ -168,8 +163,5 @@ void LocationsMenu::processInput(string inputString)
     {
         printInvalidAndProcess();
     }
-    
-    // If we pick one of the directories then we open the shell in it
-       
-    //change(MenuSystem::LOCATION);
+
 }

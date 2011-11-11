@@ -22,6 +22,7 @@ using namespace std;
 #define kill() signalKill();return;
 #define change(TYPE) signalChange(TYPE);return;
 #define process() signalProcess();return;
+#define printInvalidAndProcess() cout << "Your entry was invalid" << endl;process();
 
 class Menu {
 private:
@@ -46,7 +47,7 @@ public:
     virtual void startInterface() = 0;
     virtual void displayMenu() = 0;
     virtual MenuSystem::MenuType menuType() = 0;
-    virtual void processInput(string inputString);
+    virtual void processInput(string inputString) = 0;
     MenuSignal signal();
     MenuSystem::MenuType changeMenuType();
 };

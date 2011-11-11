@@ -199,6 +199,8 @@ void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
     if(newMenu != currentMenu->menuType())
     {
         bool foundMenuType = false;
+        
+        // Look for the menu we want to change to, if it exists then start it
         for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
             if( (*it)->menuType() == newMenu )
             {
@@ -213,6 +215,10 @@ void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
             if(newMenu == ADDREMOVE)
             {
                 cout << "We need to create and start the Add-Remove menu and start it" << endl;
+                AddRemoveMenu *addremoveMenu = new AddRemoveMenu(this);
+                menus.push_back(addremoveMenu);
+                currentMenu = addremoveMenu;
+                currentMenu->startInterface();
             }
         }
     }

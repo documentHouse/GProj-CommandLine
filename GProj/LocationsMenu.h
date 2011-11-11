@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <term.h>
 #include "MenuOption.h"
-
 #include "MenuSystem.h"
 class Menu;
 
