@@ -27,15 +27,12 @@ public:
     
 private:
     bool isOption(int optionInt);
-    bool isOption(char optionChar);
-    MenuOption *getOption(char optionChar);
-    void updateActions();
-    void updateOptions();
+
+    void setActions();
+    void setOptions();
     void displayActions();
-    void displayOptions();
     
     vector<string> _actions;
-    vector<MenuOption *> _options;
 };
 
 #endif

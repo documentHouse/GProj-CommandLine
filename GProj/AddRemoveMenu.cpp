@@ -17,14 +17,13 @@ extern char **environ;
 
 AddRemoveMenu::AddRemoveMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
-    updateActions();
-    updateOptions();
+    setActions();
+    setOptions();
 }
 
 AddRemoveMenu::~AddRemoveMenu()
 {
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        delete *it;
+
 }
 
 
@@ -36,25 +35,7 @@ bool AddRemoveMenu::isOption(int optionInt)
         return false;
 }
 
-bool AddRemoveMenu::isOption(char optionChar)
-{
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        if((*it)->getChar() == optionChar)
-            return true;
-    
-    return false;
-}
-
-MenuOption *AddRemoveMenu::getOption(char optionChar)
-{
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        if((*it)->getChar() == optionChar)
-            return *it;
-    
-    return NULL;
-}
-
-void AddRemoveMenu::updateActions()
+void AddRemoveMenu::setActions()
 {
     string addNewDir = "Add a new directory";
     _actions.push_back(addNewDir);
@@ -64,12 +45,16 @@ void AddRemoveMenu::updateActions()
     _actions.push_back(removeDir);
 }
 
-void AddRemoveMenu::updateOptions()
+void AddRemoveMenu::setOptions()
 {
+    
+    vector<MenuOption *> options;
     MenuOption *viewLocationOption = new MenuOption('l',"Choose a location",MenuSystem::LOCATION);
-    _options.push_back(viewLocationOption);
+    options.push_back(viewLocationOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
-    _options.push_back(exitOption);   
+    options.push_back(exitOption);   
+    
+    Menu::setOptions(options);
 }
 
 void AddRemoveMenu::displayActions()
@@ -83,15 +68,6 @@ void AddRemoveMenu::displayActions()
         cout << ++i << ". " << *it << endl;
     cout << endl;
 
-}
-
-void AddRemoveMenu::displayOptions()
-{
-    cout << "Options" << endl;
-    cout << "=======" << endl;
-    
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        cout << (*it)->getChar() << ". " << (*it)->getString() << endl;
 }
 
 void AddRemoveMenu::startInterface()
@@ -116,19 +92,18 @@ MenuSystem::MenuType AddRemoveMenu::menuType()
 void AddRemoveMenu::processInput(string inputString)
 {
     // Holds the value entered by the user for this menu
-    int menuChoiceInt;
-    char menuChoiceChar;
+    static int menuChoiceInt;
+    static char menuChoiceChar;
     
-    bool isValidInt = validateInt(inputString, &menuChoiceInt);
-    bool isValidChar = validateChar(inputString, &menuChoiceChar);
+    static bool isValidInt = validateInt(inputString, &menuChoiceInt);
+    static bool isValidChar = validateChar(inputString, &menuChoiceChar);
     
     if(isValidInt)
     {
-        //if((_locations.size() >= menuChoiceInt)&&(menuChoiceInt != 0))
         if(isOption(menuChoiceInt))
         {
             // You need to find a way to associate values with menu selections
-            // This more general than assuming the order that is setup in updateActions()
+            // This more general than assuming the order that is setup in setActions()
             cout << "Option chosen: " << menuChoiceInt << endl;
             process();
         }

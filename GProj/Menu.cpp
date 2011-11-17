@@ -7,7 +7,7 @@
 //
 
 #include "Menu.h"
-//#include "MenuSystem.h"
+#include "MenuOption.h"
 using namespace std;
 
 extern char *getenv();
@@ -19,7 +19,8 @@ Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(WAITIN
 
 Menu::~Menu()
 {
-
+    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
+        delete *it;
 }
 
 void Menu::signalProcess()
@@ -37,6 +38,33 @@ void Menu::signalKill()
 {
     _menuSignal = KILL;
 }
+
+void Menu::setOptions(vector<MenuOption *> options)
+{
+    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
+        delete *it;
+    
+    _options = options;
+}
+
+MenuOption *Menu::getOption(char optionChar)
+{
+    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
+        if((*it)->getChar() == optionChar)
+            return *it;
+    
+    return NULL;
+}
+
+bool Menu::isOption(char optionChar)
+{
+    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
+        if((*it)->getChar() == optionChar)
+            return true;
+    
+    return false;
+}
+
 
 bool Menu::validateInt(string intString, int *intValue)
 {
@@ -67,6 +95,15 @@ bool Menu::validateChar(string charString, char *charValue)
        return false;
     else
        return true;
+}
+
+void Menu::displayOptions()
+{
+    cout << "Options" << endl;
+    cout << "=======" << endl;
+    
+    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
+        cout << (*it)->getChar() << ". " << (*it)->getString() << endl;
 }
 
 void Menu::clearScreen()

@@ -14,9 +14,12 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "MenuSystem.h"
 #include "MenuSignal.h"
 using namespace std;
+
+class MenuOption;
 
 // Convenience macros for use in the processInput(string) method
 #define kill() signalKill();return;
@@ -29,6 +32,7 @@ private:
     MenuSystem::MenuType _changeToMenuType;
     MenuSignal _menuSignal;
     stringstream _stringStream;
+    vector<MenuOption *> _options;
 protected:
     MenuSystem *_menuSystem;
     
@@ -36,8 +40,13 @@ protected:
     void signalKill();
     void signalChange(MenuSystem::MenuType menuType);
     
+    void setOptions(vector<MenuOption *> options);
+    MenuOption *getOption(char optionChar);
+    bool isOption(char optionChar);
     bool validateInt(string intString, int *intValue);
     bool validateChar(string charString, char *charValue);
+    
+    void displayOptions();
 public:
     Menu(MenuSystem *menuSystem);
     virtual ~Menu();

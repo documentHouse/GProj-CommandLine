@@ -15,7 +15,6 @@
 		4989C2F31455FFBF00D3E52A /* MenuSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F21455FFBF00D3E52A /* MenuSystem.cpp */; };
 		4989C2F61456003D00D3E52A /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4989C2F51456003D00D3E52A /* Menu.cpp */; };
 		49AF9EB0146B16F900DE45A0 /* AddRemoveMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */; };
-		49FA912C145B068000DDD817 /* CString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49FA912B145B068000DDD817 /* CString.cpp */; };
 		A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A170463714565C0F003E9D7D /* LocationsMenu.cpp */; };
 		A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */; };
 /* End PBXBuildFile section */
@@ -48,8 +47,6 @@
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		49AF9EAD146B16E600DE45A0 /* AddRemoveMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddRemoveMenu.h; sourceTree = "<group>"; };
 		49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddRemoveMenu.cpp; sourceTree = "<group>"; };
-		49FA912A145B067100DDD817 /* CString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CString.h; sourceTree = "<group>"; };
-		49FA912B145B068000DDD817 /* CString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CString.cpp; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
 		A1B23F5D146B7ACD00250EE6 /* MenuOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOption.h; sourceTree = "<group>"; };
@@ -111,8 +108,6 @@
 				A170463614565C00003E9D7D /* LocationsMenu.h */,
 				A170463714565C0F003E9D7D /* LocationsMenu.cpp */,
 				A1F230901457A626001BE614 /* MenuSignal.h */,
-				49FA912A145B067100DDD817 /* CString.h */,
-				49FA912B145B068000DDD817 /* CString.cpp */,
 				497511451461D845001F0A25 /* GistFileSystemAccess */,
 				49AF9EAD146B16E600DE45A0 /* AddRemoveMenu.h */,
 				49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */,
@@ -184,7 +179,6 @@
 				4989C2F31455FFBF00D3E52A /* MenuSystem.cpp in Sources */,
 				4989C2F61456003D00D3E52A /* Menu.cpp in Sources */,
 				A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */,
-				49FA912C145B068000DDD817 /* CString.cpp in Sources */,
 				49AF9EB0146B16F900DE45A0 /* AddRemoveMenu.cpp in Sources */,
 				A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */,
 			);
