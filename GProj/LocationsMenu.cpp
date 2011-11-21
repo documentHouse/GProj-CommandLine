@@ -16,13 +16,12 @@ extern char **environ;
 LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
     _locations = _menuSystem->updateLocations();
-    updateOptions();
+    setOptions();
 }
 
 LocationsMenu::~LocationsMenu()
 {
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        delete *it;
+    
 }
 
 bool LocationsMenu::isOption(int optionInt)
@@ -33,40 +32,16 @@ bool LocationsMenu::isOption(int optionInt)
         return false;
 }
 
-bool LocationsMenu::isOption(char optionChar)
+void LocationsMenu::setOptions()
 {
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        if((*it)->getChar() == optionChar)
-            return true;
+    vector<MenuOption *> options;
     
-    return false;
-}
-
-MenuOption *LocationsMenu::getOption(char optionChar)
-{
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        if((*it)->getChar() == optionChar)
-            return *it;
-    
-    return NULL;
-}
-
-void LocationsMenu::updateOptions()
-{
     MenuOption *addOption = new MenuOption('a',"Add or Remove directories from locations",MenuSystem::ADDREMOVE);
-    _options.push_back(addOption);
+    options.push_back(addOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
-    _options.push_back(exitOption);
-}
+    options.push_back(exitOption);
 
-void LocationsMenu::displayOptions()
-{
-    
-    cout << "Options" << endl;
-    cout << "=======" << endl;
-    
-    for(vector<MenuOption *>::iterator it = _options.begin(); it != _options.end(); it++)
-        cout << (*it)->getChar() << ". " << (*it)->getString() << endl;
+    Menu::setOptions(options);
 }
 
 void LocationsMenu::displayLocations()
@@ -82,6 +57,7 @@ void LocationsMenu::displayLocations()
 
 bool LocationsMenu::openShell(const char *directory)
 {
+    cout << "Trying to open the shell for directory: " << directory << endl;
     if(chdir(directory) != 0)
         return false;
     else
@@ -95,6 +71,9 @@ bool LocationsMenu::openShell(const char *directory)
 
 void LocationsMenu::startInterface()
 {
+    if(_menuSystem->shouldDoLocationUpdate())
+        _locations = _menuSystem->updateLocations();
+    
     Menu::startInterface();
     displayLocations();
     displayOptions();
@@ -102,6 +81,7 @@ void LocationsMenu::startInterface()
 
 void LocationsMenu::displayMenu()
 {
+        
     clearScreen();
     displayLocations();
     displayOptions();
@@ -116,15 +96,18 @@ MenuSystem::MenuType LocationsMenu::menuType()
 void LocationsMenu::processInput(string inputString)
 {
     // Holds the value entered by the user for this menu
-    int menuChoiceInt;
-    char menuChoiceChar;
+    static int menuChoiceInt;
+    static char menuChoiceChar;
     
-    bool isValidInt = validateInt(inputString, &menuChoiceInt);
-    bool isValidChar = validateChar(inputString, &menuChoiceChar);
+    // Holds whether the entered value is valid
+    static bool isValidInt; 
+    static bool isValidChar;
+    
+    isValidInt = validateInt(inputString, &menuChoiceInt);
+    isValidChar = validateChar(inputString, &menuChoiceChar);
 
     if(isValidInt)
     {
-        //if((_locations.size() >= menuChoiceInt)&&(menuChoiceInt != 0))
         if(isOption(menuChoiceInt))
         {
             openShell(_locations[menuChoiceInt - 1].c_str());
@@ -139,7 +122,7 @@ void LocationsMenu::processInput(string inputString)
     }
     else if(isValidChar)
     {
-        if(isOption(menuChoiceChar))
+        if(Menu::isOption(menuChoiceChar))
         {
             MenuSystem::MenuType menuType = getOption(menuChoiceChar)->getValue();
             if(menuType == MenuSystem::EXIT)

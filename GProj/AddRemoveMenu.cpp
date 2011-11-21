@@ -47,13 +47,13 @@ void AddRemoveMenu::setActions()
 
 void AddRemoveMenu::setOptions()
 {
-    
+
     vector<MenuOption *> options;
     MenuOption *viewLocationOption = new MenuOption('l',"Choose a location",MenuSystem::LOCATION);
     options.push_back(viewLocationOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
     options.push_back(exitOption);   
-    
+
     Menu::setOptions(options);
 }
 
@@ -95,8 +95,12 @@ void AddRemoveMenu::processInput(string inputString)
     static int menuChoiceInt;
     static char menuChoiceChar;
     
-    static bool isValidInt = validateInt(inputString, &menuChoiceInt);
-    static bool isValidChar = validateChar(inputString, &menuChoiceChar);
+    // Holds whether the entered value is valid
+    static bool isValidInt; 
+    static bool isValidChar;
+
+    isValidInt = validateInt(inputString, &menuChoiceInt);
+    isValidChar = validateChar(inputString, &menuChoiceChar);
     
     if(isValidInt)
     {
@@ -104,8 +108,20 @@ void AddRemoveMenu::processInput(string inputString)
         {
             // You need to find a way to associate values with menu selections
             // This more general than assuming the order that is setup in setActions()
-            cout << "Option chosen: " << menuChoiceInt << endl;
-            process();
+            
+            //process();
+            if(menuChoiceInt == 1)
+            {
+                change(MenuSystem::ADDNEWDIR);
+            }
+            else if(menuChoiceInt == 2)
+            {
+                change(MenuSystem::ADDCURRENTDIR);
+            }
+            else
+            {
+                process();
+            }
         }
         else
         {
@@ -115,7 +131,7 @@ void AddRemoveMenu::processInput(string inputString)
     }
     else if(isValidChar)
     {
-        if(isOption(menuChoiceChar))
+        if(Menu::isOption(menuChoiceChar))
         {
             MenuSystem::MenuType menuType = getOption(menuChoiceChar)->getValue();
             if(menuType == MenuSystem::EXIT)

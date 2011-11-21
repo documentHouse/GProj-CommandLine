@@ -23,16 +23,6 @@ class Menu;
 using namespace std;
 
 class LocationsMenu : public Menu {
-    vector<string> _locations;
-    vector<MenuOption *> _options;
-
-    bool isOption(int optionInt);
-    bool isOption(char optionChar);
-    MenuOption *getOption(char optionChar);
-    void updateOptions();
-    void displayOptions();
-    void displayLocations();
-    bool openShell(const char *directory);
 public:
     LocationsMenu(MenuSystem *menuSystem);
     ~LocationsMenu();
@@ -40,6 +30,16 @@ public:
     void displayMenu();
     MenuSystem::MenuType menuType();
     void processInput(string inputString);
+    
+private:
+    vector<string> _locations;
+    
+    bool isOption(int optionInt);
+    bool isOption(char optionChar);
+    
+    void setOptions();
+    void displayLocations();
+    bool openShell(const char *directory);    
 };
 
 #endif

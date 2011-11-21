@@ -11,6 +11,8 @@
 #include "Menu.h"
 #include "LocationsMenu.h"
 #include "AddRemoveMenu.h"
+#include "AddNew.h"
+#include "AddCurrent.h"
 #include "sys/stat.h"
 
 const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
@@ -30,13 +32,12 @@ MenuSystem::MenuSystem()
 {
     
     // Setup the file we write locations to
-    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str(),ios::in);
+    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str(),ios::out|ios::app);
     
     if(locationsFileOut->fail())
-    {
         cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
-        //mkdir("/Users/andrew/Library/Application Support/GProj",S_IFDIR);
-    }
+    else
+        locationsFileOut->seekp(0);
     
     // Setup the file we read locations from
     locationsFileIn = new ifstream(LOCATIONS_FILE_NAME.c_str());
@@ -48,12 +49,12 @@ MenuSystem::MenuSystem()
     
     
     // Setup the file we write configuration data to
-    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str(),ios::in);
+    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str(),ios::out|ios::app);
     
     if(configurationFileOut->fail())
-    {
         cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
-    }
+    else
+        configurationFileOut->seekp(0);
     
     
     // Setup the file we write configuration data to
@@ -64,7 +65,9 @@ MenuSystem::MenuSystem()
         cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
     }
      
-    
+    shouldUpdateLocations = false;
+    isLocationsChanged = false;
+    loadLocations();
     
     // Set up the initial menu for the user
     LocationsMenu *locationsMenu = new LocationsMenu(this);
@@ -113,9 +116,12 @@ void MenuSystem::processingLoop()
         else if(signal == CHANGE)
             changeMenu(currentMenu->changeMenuType());
         else// if(signal == KILL)
-            ;//printf("Exiting GProj...\n");
+            ;
         
     } while (signal != KILL);
+    
+    if(isLocationsChanged)
+        storeLocations();
 }
 
 void MenuSystem::start()
@@ -130,28 +136,30 @@ void MenuSystem::start()
     this->processingLoop();
 }
 
-vector<string> MenuSystem::updateLocations()
+void MenuSystem::loadLocations()
 {
-    vector<string> locationsVector;
-    
-    if(locationsFileIn->bad())
-        return locationsVector;
-    else
+    if(locationsFileIn->good())
     {
         string location;
         while (locationsFileIn->good()){
             getline(*locationsFileIn, location);
             // A newline or eof defines a string of length zero. We ignore these since
             // they can not be a valid directory
+            //cout << "Location: " << location << endl;
             if(location.length() != 0)
-                locationsVector.push_back(location);
+                _locations.push_back(location);
         }
         
         locationsFileIn->clear();
         locationsFileIn->seekg(0,ios::beg);
-        
-        return locationsVector;
     }
+    
+}
+
+vector<string> MenuSystem::updateLocations()
+{
+    shouldUpdateLocations = false;
+    return _locations;
 }
 
 map<string, string> MenuSystem::updateConfigurations()
@@ -212,33 +220,67 @@ void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
         // This menu does not currently exist. Create it, add it to the menu list and start it
         if(!foundMenuType)
         {
+            Menu *newMenuType;
             if(newMenu == ADDREMOVE)
             {
                 cout << "We need to create and start the Add-Remove menu and start it" << endl;
                 AddRemoveMenu *addremoveMenu = new AddRemoveMenu(this);
-                menus.push_back(addremoveMenu);
-                currentMenu = addremoveMenu;
-                currentMenu->startInterface();
+                newMenuType = addremoveMenu;
             }
+            else if(newMenu == ADDNEWDIR)
+            {
+                cout << "We need to create and start the Add New Directory menu and start it" << endl;
+                AddNew *addnew = new AddNew(this);
+                newMenuType = addnew;
+            }
+            else if(newMenu == ADDCURRENTDIR)
+            {
+                cout << "We need to create and start the Add Current Directory menu and start it" << endl;
+                AddCurrent *addcurrent = new AddCurrent(this);
+                newMenuType = addcurrent;
+            }
+            
+            menus.push_back(newMenuType);
+            currentMenu = newMenuType;
+            currentMenu->startInterface();
         }
     }
     else
-    {
         cout << "This menu is currently running..." << endl;
-    }
+    
 }
 
-bool MenuSystem::storeLocations(vector<string> locations)
+void MenuSystem::addLocation(string newLocation)
+{
+    _locations.push_back(newLocation);
+    isLocationsChanged = true;
+    shouldUpdateLocations = true;
+}
+
+bool MenuSystem::removeLocation(string location)
+{
+    for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
+        return false;
+    
+    return true;
+}
+
+bool MenuSystem::shouldDoLocationUpdate()
+{
+    return shouldUpdateLocations;
+}
+
+bool MenuSystem::storeLocations()
 {
     if(locationsFileOut->bad()){
         cout << "The locations file could not be updated..." << endl;
         return false;
     }
     else{
-        for(vector<string>::iterator it = locations.begin(); it != locations.end(); it++)
+        for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
         {
             if(locationsFileOut->good())
-                *locationsFileOut << *it;
+                *locationsFileOut << *it << endl;
             else
                 return false;
         }

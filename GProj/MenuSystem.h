@@ -28,6 +28,9 @@ public:
         EXIT,
         LOCATION,
         ADDREMOVE,
+        ADDNEWDIR,
+        ADDCURRENTDIR,
+        REMOVEDIR
     }MenuType;
     
     static MenuSystem *sharedMenuSystem();
@@ -41,7 +44,13 @@ public:
     map<string, string> updateConfigurations();
     
     // Store the updated set of locations
-    bool storeLocations(vector<string> locations);
+    bool storeLocations();
+    
+    // Handles add and deleting from the locations store in memory
+    void addLocation(string newLocation);
+    bool removeLocation(string location);
+    bool shouldDoLocationUpdate();
+    
     
     // Allows Menu Subclass to access global data from MenuSystem
     friend class Menu;
@@ -53,7 +62,6 @@ private:
     // The only access to the singleton is through the sharedMenuSystem()
     // factory method.
     MenuSystem();
-    
     MenuSystem(const MenuSystem &);
     MenuSystem &operator=(const MenuSystem &);
     
@@ -61,6 +69,9 @@ private:
     
     static const string LOCATIONS_FILE_NAME;
     static const string CONFIGURATION_FILE_NAME;
+    
+    // Get the initial set of locations from the file
+    void loadLocations();
     
     // Holds global data that each menu can set and
     // refer to.
@@ -86,6 +97,10 @@ private:
     ofstream *configurationFileOut;
     ifstream *configurationFileIn;
     bool isConfigurationsChanged;
+    
+    bool shouldUpdateLocations;
+    
+    vector<string> _locations;
 };
 
 
