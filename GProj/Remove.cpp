@@ -1,30 +1,27 @@
 //
-//  LocationsMenu.cpp
+//  Remove.cpp
 //  GProj
 //
-//  Created by Andy on 10/24/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Andy on 12/6/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#include <iostream>
+#include "MenuOption.h"
+#include "Remove.h"
 
-
-#include "Menu.h"
-#include "LocationsMenu.h"
-
-extern char **environ;
-
-LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
+Remove::Remove(MenuSystem *menuSystem) : Menu(menuSystem)
 {
     _locations = _menuSystem->updateLocations();
     setOptions();
 }
 
-LocationsMenu::~LocationsMenu()
+Remove::~Remove()
 {
     
 }
 
-bool LocationsMenu::isOption(int optionInt)
+bool Remove::isOption(int optionInt)
 {
     if((_locations.size() >= optionInt)&&(optionInt != 0))
         return true;
@@ -32,19 +29,21 @@ bool LocationsMenu::isOption(int optionInt)
         return false;
 }
 
-void LocationsMenu::setOptions()
+void Remove::setOptions()
 {
     vector<MenuOption *> options;
     
-    MenuOption *addOption = new MenuOption('a',"Add or Remove directories from locations",MenuSystem::ADDREMOVE);
-    options.push_back(addOption);
+    MenuOption *viewLocationOption = new MenuOption('l',"Choose a location",MenuSystem::LOCATION);
+    options.push_back(viewLocationOption);
+    MenuOption *addRemoveOption = new MenuOption('r',"Return to the location options",MenuSystem::ADDREMOVE);
+    options.push_back(addRemoveOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
     options.push_back(exitOption);
-
+    
     Menu::setOptions(options);
 }
 
-void LocationsMenu::displayLocations()
+void Remove::displayLocations()
 {
     cout << "Locations" << endl;
     cout << "=========" << endl;
@@ -55,64 +54,46 @@ void LocationsMenu::displayLocations()
     cout << endl;
 }
 
-bool LocationsMenu::openShell(const char *directory)
+void Remove::startInterface()
 {
-    cout << "Trying to open the shell for directory: " << directory << endl;
-    if(chdir(directory) != 0)
-        return false;
-    else
-    {
-        clearScreen();
-        cout << "Opening bash in directory: " << directory << endl;
-        system("bash");
-        return true;
-    }
-}
-
-void LocationsMenu::startInterface()
-{
-    cout << "segcheck3.1" << endl;
     if(_menuSystem->shouldDoLocationUpdate())
         _locations = _menuSystem->updateLocations();
     
-    cout << "segcheck3.2" << endl;
     Menu::startInterface();
     displayLocations();
     displayOptions();
 }
 
-void LocationsMenu::displayMenu()
+void Remove::displayMenu()
 {
-        
     clearScreen();
     displayLocations();
     displayOptions();
 }
 
-MenuSystem::MenuType LocationsMenu::menuType()
+MenuSystem::MenuType Remove::menuType()
 {
-    return MenuSystem::LOCATION;
+    return MenuSystem::REMOVEDIR;
 }
 
-
-void LocationsMenu::processInput(string inputString)
+void Remove::processInput(string inputString)
 {
     // Holds the value entered by the user for this menu
     static int menuChoiceInt;
     static char menuChoiceChar;
     
     // Holds whether the entered value is valid
-    static bool isValidInt; 
+    static bool isValidInt;     
     static bool isValidChar;
     
-    isValidInt = validateInt(inputString, &menuChoiceInt);
+    isValidInt = validateInt(inputString, &menuChoiceInt);    
     isValidChar = validateChar(inputString, &menuChoiceChar);
-
+    
     if(isValidInt)
     {
         if(isOption(menuChoiceInt))
         {
-            openShell(_locations[menuChoiceInt - 1].c_str());
+            _menuSystem->removeLocation(_locations[menuChoiceInt]);
             displayMenu();
             process();
         }
@@ -120,7 +101,7 @@ void LocationsMenu::processInput(string inputString)
         {
             printInvalidAndProcess();
         }
-
+        
     }
     else if(isValidChar)
     {
@@ -131,13 +112,19 @@ void LocationsMenu::processInput(string inputString)
             {
                 kill();
             }
-            else
+            else if(menuType == MenuSystem::LOCATION)
             {
-                cout << "The PWD: " << getenv("PWD") << endl;
-
-                // Assuming there are no more menus for now
+                change(MenuSystem::LOCATION);
+            }
+            else if (menuType == MenuSystem::ADDREMOVE)
+            {
                 change(MenuSystem::ADDREMOVE);
             }
+            else
+            {
+                printInvalidAndProcess();
+            }
+            
         }
         else
         {

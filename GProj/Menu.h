@@ -22,10 +22,10 @@ using namespace std;
 class MenuOption;
 
 // Convenience macros for use in the processInput(string) method
-#define kill() signalKill();return;
-#define change(TYPE) signalChange(TYPE);return;
-#define process() signalProcess();return;
-#define printInvalidAndProcess() cout << "Your entry was invalid" << endl;process();
+#define kill() signalKill();return
+#define change(TYPE) signalChange(TYPE);return
+#define process() signalProcess();return
+#define printInvalidAndProcess() cout << "Your entry was invalid" << endl;process()
 
 class Menu {
 private:

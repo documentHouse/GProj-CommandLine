@@ -13,6 +13,7 @@
 #include "AddRemoveMenu.h"
 #include "AddNew.h"
 #include "AddCurrent.h"
+#include "Remove.h"
 #include "sys/stat.h"
 
 const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
@@ -30,7 +31,7 @@ MenuSystem *MenuSystem::sharedMenuSystem()
  
 MenuSystem::MenuSystem()
 {
-    
+    /*
     // Setup the file we write locations to
     locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str(),ios::out|ios::app);
     
@@ -38,6 +39,7 @@ MenuSystem::MenuSystem()
         cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
     else
         locationsFileOut->seekp(0);
+     */
     
     // Setup the file we read locations from
     locationsFileIn = new ifstream(LOCATIONS_FILE_NAME.c_str());
@@ -64,8 +66,20 @@ MenuSystem::MenuSystem()
     {
         cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
     }
-     
-    shouldUpdateLocations = false;
+    cout << "segcheck1" << endl;
+    //shouldUpdateLocations = false;
+    shouldUpdateLocations[LOCATION] = false;
+    shouldUpdateLocations[REMOVEDIR] = false;
+    
+    shouldUpdateLocations[LOCATION] = true;
+    
+    cout << "segcheck1.1" << endl;
+    
+    shouldUpdateLocations[LOCATION] = false;
+    
+    cout << "segcheck1.2" << endl;
+    cout << "Number of map elements: " << shouldUpdateLocations.size() << endl;
+    
     isLocationsChanged = false;
     loadLocations();
     
@@ -81,8 +95,8 @@ MenuSystem::~MenuSystem()
     for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
         delete *it;
     
-    locationsFileOut->close();
-    delete locationsFileOut;
+//    locationsFileOut->close();
+//    delete locationsFileOut;
     
     locationsFileIn->close();
     delete locationsFileIn;
@@ -122,6 +136,7 @@ void MenuSystem::processingLoop()
     
     if(isLocationsChanged)
         storeLocations();
+
 }
 
 void MenuSystem::start()
@@ -158,7 +173,16 @@ void MenuSystem::loadLocations()
 
 vector<string> MenuSystem::updateLocations()
 {
-    shouldUpdateLocations = false;
+    cout << "updateLocation.." << endl;
+    if(currentMenu->menuType() == LOCATION)
+        cout << "We have a location" << endl;
+    else
+        cout << "We do not have a location" << endl;
+    shouldUpdateLocations[LOCATION] = false;
+    cout << "segcheck2" << endl;
+    //shouldUpdateLocations = false;
+    //shouldUpdateLocations.find(currentMenu->menuType())->second = false;
+    cout << "segcheck2.1" << endl;
     return _locations;
 }
 
@@ -239,6 +263,12 @@ void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
                 AddCurrent *addcurrent = new AddCurrent(this);
                 newMenuType = addcurrent;
             }
+            else if(newMenu == REMOVEDIR)
+            {
+                cout << "We need to create and start the Add Current Directory menu and start it" << endl;
+                Remove *remove = new Remove(this);
+                newMenuType = remove;
+            }
             
             menus.push_back(newMenuType);
             currentMenu = newMenuType;
@@ -254,36 +284,66 @@ void MenuSystem::addLocation(string newLocation)
 {
     _locations.push_back(newLocation);
     isLocationsChanged = true;
-    shouldUpdateLocations = true;
+    cout << "segcheck3" << endl;
+    //shouldUpdateLocations = true;
+    for(map<int, bool>::iterator it = shouldUpdateLocations.begin(); it != shouldUpdateLocations.end(); it++)
+        it->second = true;
+    //shouldUpdateLocations.find(currentMenu->menuType())->second = true;
 }
 
 bool MenuSystem::removeLocation(string location)
 {
     for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
-        return false;
+        if(location.compare(*it) == 0)
+        {
+            _locations.erase(it);
+            isLocationsChanged = true;
+            cout << "segcheck4" << endl;
+            //shouldUpdateLocations = true;
+            for(map<int, bool>::iterator it = shouldUpdateLocations.begin(); it != shouldUpdateLocations.end(); it++)
+                it->second = true;
+            //shouldUpdateLocations.find(currentMenu->menuType())->second = true;
+            return true;
+        }
     
-    return true;
+    return false;
 }
 
 bool MenuSystem::shouldDoLocationUpdate()
 {
-    return shouldUpdateLocations;
+    cout << "Should do a location update" << endl;
+    //return shouldUpdateLocations;
+    cout << "segcheck5" << endl;    
+    return shouldUpdateLocations.find(currentMenu->menuType())->second;
 }
 
 bool MenuSystem::storeLocations()
 {
-    if(locationsFileOut->bad()){
-        cout << "The locations file could not be updated..." << endl;
+    
+    // Setup the file we write locations to
+    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str());
+    
+    if(locationsFileOut->fail())
+    {
+        locationsFileOut->close();
+        delete locationsFileOut;
+        cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
         return false;
     }
-    else{
-        for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
-        {
-            if(locationsFileOut->good())
-                *locationsFileOut << *it << endl;
-            else
-                return false;
-        }
-        return true;
-    }
+    
+    for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
+        *locationsFileOut << *it << endl;
+    
+    locationsFileOut->close();
+    delete locationsFileOut;
+    
+    return true;
+    
+}
+
+
+bool MenuSystem::storeConfigurations()
+{
+    
+    return true;
 }

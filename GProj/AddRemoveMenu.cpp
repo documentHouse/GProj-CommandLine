@@ -118,6 +118,10 @@ void AddRemoveMenu::processInput(string inputString)
             {
                 change(MenuSystem::ADDCURRENTDIR);
             }
+            else if(menuChoiceInt == 3)
+            {
+                change(MenuSystem::REMOVEDIR);
+            }
             else
             {
                 process();

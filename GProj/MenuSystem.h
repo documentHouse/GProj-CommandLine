@@ -46,6 +46,9 @@ public:
     // Store the updated set of locations
     bool storeLocations();
     
+    // Store the updated configuration 
+    bool storeConfigurations();
+    
     // Handles add and deleting from the locations store in memory
     void addLocation(string newLocation);
     bool removeLocation(string location);
@@ -98,7 +101,9 @@ private:
     ifstream *configurationFileIn;
     bool isConfigurationsChanged;
     
-    bool shouldUpdateLocations;
+    //bool shouldUpdateLocations;
+    
+    map<int, bool> shouldUpdateLocations;
     
     vector<string> _locations;
 };

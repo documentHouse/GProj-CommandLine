@@ -17,6 +17,7 @@
 		49AF9EB0146B16F900DE45A0 /* AddRemoveMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */; };
 		A170463814565C0F003E9D7D /* LocationsMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A170463714565C0F003E9D7D /* LocationsMenu.cpp */; };
 		A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */; };
+		A1C9F18E148F127300FD991B /* Remove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C9F18D148F127200FD991B /* Remove.cpp */; };
 		A1CB00301478F990009514D9 /* AddNew.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CB002F1478F990009514D9 /* AddNew.cpp */; };
 		A1CB003614797474009514D9 /* AddCurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CB003514797474009514D9 /* AddCurrent.cpp */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,8 @@
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
 		A1B23F5D146B7ACD00250EE6 /* MenuOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOption.h; sourceTree = "<group>"; };
 		A1B23F5F146B7AD900250EE6 /* MenuOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuOption.cpp; sourceTree = "<group>"; };
+		A1C9F18B148F126600FD991B /* Remove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remove.h; sourceTree = "<group>"; };
+		A1C9F18D148F127200FD991B /* Remove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Remove.cpp; sourceTree = "<group>"; };
 		A1CB002D1478F983009514D9 /* AddNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNew.h; sourceTree = "<group>"; };
 		A1CB002F1478F990009514D9 /* AddNew.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddNew.cpp; sourceTree = "<group>"; };
 		A1CB00341479743E009514D9 /* AddCurrent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCurrent.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				A1CB002F1478F990009514D9 /* AddNew.cpp */,
 				A1CB00341479743E009514D9 /* AddCurrent.h */,
 				A1CB003514797474009514D9 /* AddCurrent.cpp */,
+				A1C9F18B148F126600FD991B /* Remove.h */,
+				A1C9F18D148F127200FD991B /* Remove.cpp */,
 			);
 			path = GProj;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 				A1B23F60146B7AD900250EE6 /* MenuOption.cpp in Sources */,
 				A1CB00301478F990009514D9 /* AddNew.cpp in Sources */,
 				A1CB003614797474009514D9 /* AddCurrent.cpp in Sources */,
+				A1C9F18E148F127300FD991B /* Remove.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

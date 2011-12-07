@@ -35,7 +35,6 @@ private:
     vector<string> _locations;
     
     bool isOption(int optionInt);
-    bool isOption(char optionChar);
     
     void setOptions();
     void displayLocations();
