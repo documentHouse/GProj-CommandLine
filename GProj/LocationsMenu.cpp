@@ -15,7 +15,6 @@ extern char **environ;
 
 LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
-    _locations = _menuSystem->updateLocations();
     setOptions();
 }
 
@@ -71,11 +70,9 @@ bool LocationsMenu::openShell(const char *directory)
 
 void LocationsMenu::startInterface()
 {
-    cout << "segcheck3.1" << endl;
     if(_menuSystem->shouldDoLocationUpdate())
         _locations = _menuSystem->updateLocations();
     
-    cout << "segcheck3.2" << endl;
     Menu::startInterface();
     displayLocations();
     displayOptions();
@@ -97,6 +94,15 @@ MenuSystem::MenuType LocationsMenu::menuType()
 
 void LocationsMenu::processInput(string inputString)
 {
+    
+    // Shortcut to the first choice    
+    if(inputString.length() == 0)
+    {
+        openShell(_locations[0].c_str());
+        displayMenu();
+        process();
+    }
+    
     // Holds the value entered by the user for this menu
     static int menuChoiceInt;
     static char menuChoiceChar;
@@ -107,7 +113,7 @@ void LocationsMenu::processInput(string inputString)
     
     isValidInt = validateInt(inputString, &menuChoiceInt);
     isValidChar = validateChar(inputString, &menuChoiceChar);
-
+    
     if(isValidInt)
     {
         if(isOption(menuChoiceInt))

@@ -31,16 +31,6 @@ MenuSystem *MenuSystem::sharedMenuSystem()
  
 MenuSystem::MenuSystem()
 {
-    /*
-    // Setup the file we write locations to
-    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str(),ios::out|ios::app);
-    
-    if(locationsFileOut->fail())
-        cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
-    else
-        locationsFileOut->seekp(0);
-     */
-    
     // Setup the file we read locations from
     locationsFileIn = new ifstream(LOCATIONS_FILE_NAME.c_str());
     
@@ -66,19 +56,9 @@ MenuSystem::MenuSystem()
     {
         cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
     }
-    cout << "segcheck1" << endl;
-    //shouldUpdateLocations = false;
-    shouldUpdateLocations[LOCATION] = false;
-    shouldUpdateLocations[REMOVEDIR] = false;
-    
+
     shouldUpdateLocations[LOCATION] = true;
-    
-    cout << "segcheck1.1" << endl;
-    
-    shouldUpdateLocations[LOCATION] = false;
-    
-    cout << "segcheck1.2" << endl;
-    cout << "Number of map elements: " << shouldUpdateLocations.size() << endl;
+    shouldUpdateLocations[REMOVEDIR] = true;
     
     isLocationsChanged = false;
     loadLocations();
@@ -173,16 +153,7 @@ void MenuSystem::loadLocations()
 
 vector<string> MenuSystem::updateLocations()
 {
-    cout << "updateLocation.." << endl;
-    if(currentMenu->menuType() == LOCATION)
-        cout << "We have a location" << endl;
-    else
-        cout << "We do not have a location" << endl;
-    shouldUpdateLocations[LOCATION] = false;
-    cout << "segcheck2" << endl;
-    //shouldUpdateLocations = false;
-    //shouldUpdateLocations.find(currentMenu->menuType())->second = false;
-    cout << "segcheck2.1" << endl;
+    shouldUpdateLocations[currentMenu->menuType()] = false;
     return _locations;
 }
 
@@ -211,7 +182,8 @@ map<string, string> MenuSystem::updateConfigurations()
                 key = configString.substr(0,position);
                 value = configString.substr(position+1);
                 
-                configurations.insert(pair<string, string>(key,value));
+                //configurations.insert(pair<string, string>(key,value));
+                configurations[key] = value;
             }
         }
         
@@ -219,8 +191,8 @@ map<string, string> MenuSystem::updateConfigurations()
         configurationFileIn->seekg(0,ios::beg);
         
         // Print the key-values parsed from the file
-        //for(map<string,string>::iterator it = configurations.begin(); it != configurations.end(); it++)
-        //    cout << "Key: " << (*it).first << " -- Value: " << (*it).second << endl;
+        for(map<string,string>::iterator it = configurations.begin(); it != configurations.end(); it++)
+            cout << "Key: " << it->first << " -- Value: " << it->second << endl;
         
         return configurations;
     }
@@ -284,11 +256,9 @@ void MenuSystem::addLocation(string newLocation)
 {
     _locations.push_back(newLocation);
     isLocationsChanged = true;
-    cout << "segcheck3" << endl;
-    //shouldUpdateLocations = true;
+
     for(map<int, bool>::iterator it = shouldUpdateLocations.begin(); it != shouldUpdateLocations.end(); it++)
         it->second = true;
-    //shouldUpdateLocations.find(currentMenu->menuType())->second = true;
 }
 
 bool MenuSystem::removeLocation(string location)
@@ -298,11 +268,10 @@ bool MenuSystem::removeLocation(string location)
         {
             _locations.erase(it);
             isLocationsChanged = true;
-            cout << "segcheck4" << endl;
-            //shouldUpdateLocations = true;
+
             for(map<int, bool>::iterator it = shouldUpdateLocations.begin(); it != shouldUpdateLocations.end(); it++)
                 it->second = true;
-            //shouldUpdateLocations.find(currentMenu->menuType())->second = true;
+
             return true;
         }
     
@@ -311,10 +280,7 @@ bool MenuSystem::removeLocation(string location)
 
 bool MenuSystem::shouldDoLocationUpdate()
 {
-    cout << "Should do a location update" << endl;
-    //return shouldUpdateLocations;
-    cout << "segcheck5" << endl;    
-    return shouldUpdateLocations.find(currentMenu->menuType())->second;
+    return shouldUpdateLocations[currentMenu->menuType()];
 }
 
 bool MenuSystem::storeLocations()

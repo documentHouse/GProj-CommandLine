@@ -50,6 +50,7 @@
 		4989C2FC145615B100D3E52A /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		49AF9EAD146B16E600DE45A0 /* AddRemoveMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddRemoveMenu.h; sourceTree = "<group>"; };
 		49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddRemoveMenu.cpp; sourceTree = "<group>"; };
+		49F11FFF14901515000465A8 /* GistFileSearch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GistFileSearch; sourceTree = "<group>"; };
 		A170463614565C00003E9D7D /* LocationsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsMenu.h; sourceTree = "<group>"; };
 		A170463714565C0F003E9D7D /* LocationsMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocationsMenu.cpp; sourceTree = "<group>"; };
 		A1B23F5D146B7ACD00250EE6 /* MenuOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOption.h; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 				A170463714565C0F003E9D7D /* LocationsMenu.cpp */,
 				A1F230901457A626001BE614 /* MenuSignal.h */,
 				497511451461D845001F0A25 /* GistFileSystemAccess */,
+				49F11FFF14901515000465A8 /* GistFileSearch */,
 				49AF9EAD146B16E600DE45A0 /* AddRemoveMenu.h */,
 				49AF9EAF146B16F900DE45A0 /* AddRemoveMenu.cpp */,
 				A1B23F5D146B7ACD00250EE6 /* MenuOption.h */,

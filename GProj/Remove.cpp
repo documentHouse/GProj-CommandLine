@@ -12,7 +12,6 @@
 
 Remove::Remove(MenuSystem *menuSystem) : Menu(menuSystem)
 {
-    _locations = _menuSystem->updateLocations();
     setOptions();
 }
 
@@ -66,6 +65,9 @@ void Remove::startInterface()
 
 void Remove::displayMenu()
 {
+    if(_menuSystem->shouldDoLocationUpdate())
+        _locations = _menuSystem->updateLocations();
+    
     clearScreen();
     displayLocations();
     displayOptions();
@@ -93,8 +95,10 @@ void Remove::processInput(string inputString)
     {
         if(isOption(menuChoiceInt))
         {
-            _menuSystem->removeLocation(_locations[menuChoiceInt]);
+            string locationToRemove = _locations[menuChoiceInt-1];
+            _menuSystem->removeLocation(locationToRemove);
             displayMenu();
+            cout << endl << "Removing location: " << locationToRemove << endl;
             process();
         }
         else

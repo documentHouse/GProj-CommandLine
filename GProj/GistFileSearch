@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+
+void findDir(const char *filebase, const char *targetDir, vector<string> *targetPaths);
+
+int main(int argc, char *argv[])
+{
+    vector<string> *targetPaths = new vector<string>;
+    //findDir("/Users/andrew/Documents/LaTeX Work",".git");
+    findDir(argv[1],".git",targetPaths);  
+    for(vector<string>::iterator it = targetPaths->begin(); it != targetPaths->end(); it++)
+        printf("Git Directory: %s\n",it->c_str());
+    delete targetPaths;
+    return (0);
+}
+
+void findDir(const char *filebase, const char *targetDir, vector<string> *targetPaths)
+{
+    DIR *dirp;
+    struct dirent *dp;
+    char filepath[FILENAME_MAX];
+    struct stat statbuf;
+    
+    dirp = opendir(filebase);
+    
+    while((dp = readdir(dirp)) != NULL){
+        strcpy(filepath,filebase);
+        strcat(filepath, "/");
+        
+        if((strcmp(dp->d_name,".")==0)||(strcmp(dp->d_name,"..")==0))
+            continue;
+        
+        else if (strcmp(dp->d_name,targetDir)==0)
+        {
+            //printf("GIT directory found...\n");
+            //printf("GIT path:%s\n",filepath);
+            targetPaths->push_back(filepath);
+            continue;
+        }
+        
+        strcat(filepath, dp->d_name);         
+        if(stat(filepath,&statbuf) == -1)
+        {
+            // An error happens for an alias since
+            // it is considered neither a file nor a directory
+            // printf("Error: %s\n",strerror(errno));
+            // printf("Error path: %s\n",filepath);
+            continue;
+        }
+        
+        //printf("path:%s\n",filepath);
+        
+        if(S_ISDIR(statbuf.st_mode))
+            findDir(filepath,targetDir,targetPaths);
+    }
+    
+    closedir(dirp);
+}
