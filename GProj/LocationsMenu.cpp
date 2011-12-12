@@ -11,8 +11,6 @@
 #include "Menu.h"
 #include "LocationsMenu.h"
 
-extern char **environ;
-
 LocationsMenu::LocationsMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
     setOptions();
@@ -34,7 +32,15 @@ bool LocationsMenu::isOption(int optionInt)
 void LocationsMenu::setOptions()
 {
     vector<MenuOption *> options;
+   
+    map<string,string> configurations = _menuSystem->updateConfigurations();
+    _previousLocation = configurations[_menuSystem->CONFIGKEY_PREVIOUS];
     
+    string quickOptionString = "Quick open the last location: ";
+    quickOptionString.append(_previousLocation);
+    
+    MenuOption *quickOption = new MenuOption('*',quickOptionString,MenuSystem::ADDREMOVE);
+    options.push_back(quickOption);
     MenuOption *addOption = new MenuOption('a',"Add or Remove directories from locations",MenuSystem::ADDREMOVE);
     options.push_back(addOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
@@ -56,7 +62,7 @@ void LocationsMenu::displayLocations()
 
 bool LocationsMenu::openShell(const char *directory)
 {
-    cout << "Trying to open the shell for directory: " << directory << endl;
+
     if(chdir(directory) != 0)
         return false;
     else
@@ -98,7 +104,7 @@ void LocationsMenu::processInput(string inputString)
     // Shortcut to the first choice    
     if(inputString.length() == 0)
     {
-        openShell(_locations[0].c_str());
+        openShell(_previousLocation.c_str());
         displayMenu();
         process();
     }
@@ -118,7 +124,8 @@ void LocationsMenu::processInput(string inputString)
     {
         if(isOption(menuChoiceInt))
         {
-            openShell(_locations[menuChoiceInt - 1].c_str());
+            if(openShell(_locations[menuChoiceInt - 1].c_str()))
+                _menuSystem->changePreviousLocation(_locations[menuChoiceInt - 1].c_str());
             displayMenu();
             process();
         }

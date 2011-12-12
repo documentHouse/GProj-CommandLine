@@ -33,6 +33,9 @@ public:
         REMOVEDIR
     }MenuType;
     
+    // Keys for Accessing the configuration file
+    static const string CONFIGKEY_PREVIOUS;
+    
     static MenuSystem *sharedMenuSystem();
     ~MenuSystem();
     
@@ -54,6 +57,8 @@ public:
     bool removeLocation(string location);
     bool shouldDoLocationUpdate();
     
+    // Handles changing the configuration data
+    void changePreviousLocation(string previousLocation);
     
     // Allows Menu Subclass to access global data from MenuSystem
     friend class Menu;
@@ -70,11 +75,17 @@ private:
     
     void processingLoop();
     
+    // Names a files which store the location and configuration
+    // information for running the program
     static const string LOCATIONS_FILE_NAME;
     static const string CONFIGURATION_FILE_NAME;
+
     
     // Get the initial set of locations from the file
     void loadLocations();
+    
+    // Get the set of configurations from the file
+    void loadConfigurations();
     
     // Holds global data that each menu can set and
     // refer to.
@@ -101,11 +112,10 @@ private:
     ifstream *configurationFileIn;
     bool isConfigurationsChanged;
     
-    //bool shouldUpdateLocations;
-    
     map<int, bool> shouldUpdateLocations;
     
     vector<string> _locations;
+    map<string, string> _configurations;
 };
 
 

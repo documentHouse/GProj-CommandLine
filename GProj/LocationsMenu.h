@@ -33,6 +33,7 @@ public:
     
 private:
     vector<string> _locations;
+    string _previousLocation;
     
     bool isOption(int optionInt);
     

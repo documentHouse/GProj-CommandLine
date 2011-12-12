@@ -18,6 +18,7 @@
 
 const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
 const string MenuSystem::CONFIGURATION_FILE_NAME = "Config.gproj";
+const string MenuSystem::CONFIGKEY_PREVIOUS = "previous";
 MenuSystem *MenuSystem::menuSystem = NULL;
 
 MenuSystem *MenuSystem::sharedMenuSystem()
@@ -39,16 +40,6 @@ MenuSystem::MenuSystem()
         cout << "Failed to open the following file for reading: " << LOCATIONS_FILE_NAME << endl;
     }
     
-    
-    // Setup the file we write configuration data to
-    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str(),ios::out|ios::app);
-    
-    if(configurationFileOut->fail())
-        cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
-    else
-        configurationFileOut->seekp(0);
-    
-    
     // Setup the file we write configuration data to
     configurationFileIn = new ifstream(CONFIGURATION_FILE_NAME.c_str());
     
@@ -63,6 +54,9 @@ MenuSystem::MenuSystem()
     isLocationsChanged = false;
     loadLocations();
     
+    isConfigurationsChanged = false;
+    loadConfigurations();
+    
     // Set up the initial menu for the user
     LocationsMenu *locationsMenu = new LocationsMenu(this);
     currentMenu = locationsMenu;
@@ -74,15 +68,9 @@ MenuSystem::~MenuSystem()
     // Destroy all the menus
     for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
         delete *it;
-    
-//    locationsFileOut->close();
-//    delete locationsFileOut;
-    
+        
     locationsFileIn->close();
     delete locationsFileIn;
-    
-    configurationFileOut->close();
-    delete configurationFileOut;
     
     configurationFileIn->close();
     delete configurationFileIn;
@@ -116,7 +104,9 @@ void MenuSystem::processingLoop()
     
     if(isLocationsChanged)
         storeLocations();
-
+    
+    if(isConfigurationsChanged)
+        storeConfigurations();
 }
 
 void MenuSystem::start()
@@ -151,19 +141,9 @@ void MenuSystem::loadLocations()
     
 }
 
-vector<string> MenuSystem::updateLocations()
-{
-    shouldUpdateLocations[currentMenu->menuType()] = false;
-    return _locations;
-}
-
-map<string, string> MenuSystem::updateConfigurations()
-{
-    map<string, string> configurations;
-    
-    if(configurationFileIn->bad())
-        return configurations;
-    else
+void MenuSystem::loadConfigurations()
+{    
+    if(configurationFileIn->good())
     {
         string configString;
         unsigned long position;
@@ -182,8 +162,7 @@ map<string, string> MenuSystem::updateConfigurations()
                 key = configString.substr(0,position);
                 value = configString.substr(position+1);
                 
-                //configurations.insert(pair<string, string>(key,value));
-                configurations[key] = value;
+                _configurations[key] = value;
             }
         }
         
@@ -191,11 +170,22 @@ map<string, string> MenuSystem::updateConfigurations()
         configurationFileIn->seekg(0,ios::beg);
         
         // Print the key-values parsed from the file
-        for(map<string,string>::iterator it = configurations.begin(); it != configurations.end(); it++)
+        for(map<string,string>::iterator it = _configurations.begin(); it != _configurations.end(); it++)
             cout << "Key: " << it->first << " -- Value: " << it->second << endl;
-        
-        return configurations;
     }
+
+}
+
+
+vector<string> MenuSystem::updateLocations()
+{
+    shouldUpdateLocations[currentMenu->menuType()] = false;
+    return _locations;
+}
+
+map<string, string> MenuSystem::updateConfigurations()
+{
+    return _configurations;
 }
 
 void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
@@ -283,6 +273,15 @@ bool MenuSystem::shouldDoLocationUpdate()
     return shouldUpdateLocations[currentMenu->menuType()];
 }
 
+
+void MenuSystem::changePreviousLocation(string previousLocation)
+{
+    isConfigurationsChanged = true;
+    _configurations[CONFIGKEY_PREVIOUS] = previousLocation;
+    cout << "changePreviousLocation" << endl;
+    cout << "previousLocation: " << previousLocation << endl;    
+}
+
 bool MenuSystem::storeLocations()
 {
     
@@ -310,6 +309,32 @@ bool MenuSystem::storeLocations()
 
 bool MenuSystem::storeConfigurations()
 {
+    cout << "storeConfigurations" << endl;
+    // Setup the file we write configuration data to
+    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str());
+    
+    if(configurationFileOut->fail())
+    {
+        configurationFileOut->close();
+        delete configurationFileOut;
+        cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
+        return false;
+    }
+    //else
+    //    cout << "The file: " << CONFIGURATION_FILE_NAME << " is open for writing"  << endl;
+    
+    for(map<string, string>::iterator it = _configurations.begin(); it != _configurations.end(); it++)
+    {
+        cout << "Writing key: " << it->first << "  value: " << it->second << endl;
+        //*configurationFileOut << it->first << "=" << it->second << endl;
+        if(configurationFileOut->good())
+            *configurationFileOut << "previous=/Users/andrew/Documents" << endl;
+        else
+            cout << "There was a problem writing to the configuration file." << endl;
+    }
+    
+    configurationFileOut->close();
+    delete configurationFileOut;
     
     return true;
 }
