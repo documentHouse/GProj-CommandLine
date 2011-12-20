@@ -10,8 +10,6 @@
 #include "MenuOption.h"
 using namespace std;
 
-extern char *getenv();
-
 Menu::Menu(MenuSystem *menuSystem) : _menuSystem(menuSystem), _menuSignal(WAITING)
 {
     _menuSystem->_StateValue = 0;

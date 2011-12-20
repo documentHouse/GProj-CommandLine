@@ -13,8 +13,6 @@
 #include "AddRemoveMenu.h"
 using namespace std;
 
-extern char **environ;
-
 AddRemoveMenu::AddRemoveMenu(MenuSystem *menuSystem) : Menu(menuSystem)
 {
     setActions();
@@ -143,9 +141,7 @@ void AddRemoveMenu::processInput(string inputString)
                 kill();
             }
             else
-            {
-                cout << "The PWD: " << getenv("PWD") << endl;
-                
+            {                
                 // Assuming there are no more menus for now
                 change(MenuSystem::LOCATION);
             }

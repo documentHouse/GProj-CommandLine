@@ -16,6 +16,7 @@
 #include "Remove.h"
 #include "sys/stat.h"
 
+const string MenuSystem::STORAGE_PATH = "/Users/andrew/gprojFiles/";
 const string MenuSystem::LOCATIONS_FILE_NAME = "Locations.gproj";
 const string MenuSystem::CONFIGURATION_FILE_NAME = "Config.gproj";
 const string MenuSystem::CONFIGKEY_PREVIOUS = "previous";
@@ -32,21 +33,6 @@ MenuSystem *MenuSystem::sharedMenuSystem()
  
 MenuSystem::MenuSystem()
 {
-    // Setup the file we read locations from
-    locationsFileIn = new ifstream(LOCATIONS_FILE_NAME.c_str());
-    
-    if(locationsFileIn->fail())
-    {
-        cout << "Failed to open the following file for reading: " << LOCATIONS_FILE_NAME << endl;
-    }
-    
-    // Setup the file we write configuration data to
-    configurationFileIn = new ifstream(CONFIGURATION_FILE_NAME.c_str());
-    
-    if(configurationFileIn->fail())
-    {
-        cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
-    }
 
     shouldUpdateLocations[LOCATION] = true;
     shouldUpdateLocations[REMOVEDIR] = true;
@@ -68,12 +54,6 @@ MenuSystem::~MenuSystem()
     // Destroy all the menus
     for(vector<Menu *>::iterator it = menus.begin(); it != menus.end(); it++)
         delete *it;
-        
-    locationsFileIn->close();
-    delete locationsFileIn;
-    
-    configurationFileIn->close();
-    delete configurationFileIn;
 }
 
 
@@ -123,35 +103,43 @@ void MenuSystem::start()
 
 void MenuSystem::loadLocations()
 {
-    if(locationsFileIn->good())
+    
+    string storePath = STORAGE_PATH;
+    ifstream locationsFileIn(storePath.append(LOCATIONS_FILE_NAME).c_str());
+    if(locationsFileIn.good())
     {
         string location;
-        while (locationsFileIn->good()){
-            getline(*locationsFileIn, location);
+        while (locationsFileIn.good()){
+            getline(locationsFileIn, location);
             // A newline or eof defines a string of length zero. We ignore these since
             // they can not be a valid directory
-            //cout << "Location: " << location << endl;
             if(location.length() != 0)
                 _locations.push_back(location);
         }
         
-        locationsFileIn->clear();
-        locationsFileIn->seekg(0,ios::beg);
+        locationsFileIn.clear();
+        locationsFileIn.close();
     }
-    
+    else
+        locationsFileIn.close();
+
 }
 
 void MenuSystem::loadConfigurations()
 {    
-    if(configurationFileIn->good())
+
+    string storePath = STORAGE_PATH;
+    ifstream configurationFileIn(storePath.append(CONFIGURATION_FILE_NAME).c_str());
+    if(configurationFileIn.good())
     {
+        cout << "configurationFileIn" << endl;
         string configString;
         unsigned long position;
         string key;
         string value;
-        while(configurationFileIn->good())
+        while(configurationFileIn.good())
         {
-            getline(*configurationFileIn, configString);
+            getline(configurationFileIn, configString);
             
             if(configString.length() != 0)
             {
@@ -166,14 +154,13 @@ void MenuSystem::loadConfigurations()
             }
         }
         
-        configurationFileIn->clear();
-        configurationFileIn->seekg(0,ios::beg);
-        
-        // Print the key-values parsed from the file
-        for(map<string,string>::iterator it = _configurations.begin(); it != _configurations.end(); it++)
-            cout << "Key: " << it->first << " -- Value: " << it->second << endl;
-    }
+        configurationFileIn.clear();
+        configurationFileIn.close();
 
+    }
+    else
+        configurationFileIn.close();
+    
 }
 
 
@@ -185,6 +172,7 @@ vector<string> MenuSystem::updateLocations()
 
 map<string, string> MenuSystem::updateConfigurations()
 {
+    isConfigurationsChanged = false;
     return _configurations;
 }
 
@@ -227,7 +215,7 @@ void MenuSystem::changeMenu(MenuSystem::MenuType newMenu)
             }
             else if(newMenu == REMOVEDIR)
             {
-                cout << "We need to create and start the Add Current Directory menu and start it" << endl;
+                cout << "We need to create and start the Remove Directory menu and start it" << endl;
                 Remove *remove = new Remove(this);
                 newMenuType = remove;
             }
@@ -278,29 +266,26 @@ void MenuSystem::changePreviousLocation(string previousLocation)
 {
     isConfigurationsChanged = true;
     _configurations[CONFIGKEY_PREVIOUS] = previousLocation;
-    cout << "changePreviousLocation" << endl;
-    cout << "previousLocation: " << previousLocation << endl;    
 }
 
 bool MenuSystem::storeLocations()
 {
     
     // Setup the file we write locations to
-    locationsFileOut = new ofstream(LOCATIONS_FILE_NAME.c_str());
+    string storePath = STORAGE_PATH;
+    ofstream locationsFileOut(storePath.append(LOCATIONS_FILE_NAME).c_str());
     
-    if(locationsFileOut->fail())
+    if(locationsFileOut.fail())
     {
-        locationsFileOut->close();
-        delete locationsFileOut;
+        locationsFileOut.close();
         cout << "Failed to open the following file for writing: " << LOCATIONS_FILE_NAME << endl;
         return false;
     }
-    
+
     for(vector<string>::iterator it = _locations.begin(); it != _locations.end(); it++)
-        *locationsFileOut << *it << endl;
+        locationsFileOut << *it << endl;    
     
-    locationsFileOut->close();
-    delete locationsFileOut;
+    locationsFileOut.close();
     
     return true;
     
@@ -309,32 +294,23 @@ bool MenuSystem::storeLocations()
 
 bool MenuSystem::storeConfigurations()
 {
-    cout << "storeConfigurations" << endl;
     // Setup the file we write configuration data to
-    configurationFileOut = new ofstream(CONFIGURATION_FILE_NAME.c_str());
-    
-    if(configurationFileOut->fail())
+    string storePath = STORAGE_PATH;
+    ofstream configurationFileOut(storePath.append(CONFIGURATION_FILE_NAME).c_str());
+
+    if(configurationFileOut.fail())
     {
-        configurationFileOut->close();
-        delete configurationFileOut;
+
+        configurationFileOut.close();
         cout << "Failed to open the following file for writing: " << CONFIGURATION_FILE_NAME << endl;
         return false;
     }
-    //else
-    //    cout << "The file: " << CONFIGURATION_FILE_NAME << " is open for writing"  << endl;
+    
     
     for(map<string, string>::iterator it = _configurations.begin(); it != _configurations.end(); it++)
-    {
-        cout << "Writing key: " << it->first << "  value: " << it->second << endl;
-        //*configurationFileOut << it->first << "=" << it->second << endl;
-        if(configurationFileOut->good())
-            *configurationFileOut << "previous=/Users/andrew/Documents" << endl;
-        else
-            cout << "There was a problem writing to the configuration file." << endl;
-    }
+        configurationFileOut << it->first << "=" << it->second << endl;
     
-    configurationFileOut->close();
-    delete configurationFileOut;
+    configurationFileOut.close();
     
     return true;
 }

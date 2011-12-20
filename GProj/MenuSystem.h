@@ -79,7 +79,8 @@ private:
     // information for running the program
     static const string LOCATIONS_FILE_NAME;
     static const string CONFIGURATION_FILE_NAME;
-
+    
+    static const string STORAGE_PATH;
     
     // Get the initial set of locations from the file
     void loadLocations();
@@ -100,16 +101,12 @@ private:
     
     static MenuSystem *menuSystem;
 
-    // Handle reading and writing from the file containing the locations of the
+    // Handle whether we read or wrote from the file containing the locations of the
     // git projects
-    ofstream *locationsFileOut;
-    ifstream *locationsFileIn;
     bool isLocationsChanged;
     
-    // Handle reading and writing from the file containing the configuration data
+    // Handle whether we read or wrote from the file containing the configuration data
     // for this application
-    ofstream *configurationFileOut;
-    ifstream *configurationFileIn;
     bool isConfigurationsChanged;
     
     map<int, bool> shouldUpdateLocations;

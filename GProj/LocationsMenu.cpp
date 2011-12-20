@@ -62,11 +62,12 @@ void LocationsMenu::displayLocations()
 
 bool LocationsMenu::openShell(const char *directory)
 {
-
-    if(chdir(directory) != 0)
+    int val;
+    if((val = chdir(directory)) != 0)
         return false;
     else
     {
+        cout << "Here is the returned val: " << val << endl;
         clearScreen();
         cout << "Opening bash in directory: " << directory << endl;
         system("bash");
@@ -146,8 +147,6 @@ void LocationsMenu::processInput(string inputString)
             }
             else
             {
-                cout << "The PWD: " << getenv("PWD") << endl;
-
                 // Assuming there are no more menus for now
                 change(MenuSystem::ADDREMOVE);
             }
