@@ -84,8 +84,8 @@ void AddCurrent::processInput(string inputString)
             {            
                 if(menuChoiceChar == 'y')
                     _menuSystem->addLocation(currentDir);
-                else if(menuChoiceChar == 'n')
-                    cout << "You said no." << endl;
+                //else if(menuChoiceChar == 'n')
+                    //cout << "You said no." << endl;
                     
                 // Assuming there are no more menus for now
                 change(MenuSystem::ADDREMOVE);

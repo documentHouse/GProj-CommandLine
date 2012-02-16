@@ -24,7 +24,11 @@ public:
     void processInput(string inputString);
 
 private:
+    bool isOption(int optionInt);
+    void setActions();
     void setOptions();
+    void displayActions();
+    vector<string> _actions;
 };
 
 #endif

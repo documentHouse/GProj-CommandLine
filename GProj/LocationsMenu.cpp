@@ -7,7 +7,7 @@
 //
 
 
-
+#include <errno.h>
 #include "Menu.h"
 #include "LocationsMenu.h"
 
@@ -36,11 +36,15 @@ void LocationsMenu::setOptions()
     map<string,string> configurations = _menuSystem->updateConfigurations();
     _previousLocation = configurations[_menuSystem->CONFIGKEY_PREVIOUS];
     
-    string quickOptionString = "Quick open the last location: ";
-    quickOptionString.append(_previousLocation);
+    if(_previousLocation.length() != 0)
+    {
+        string quickOptionString = "Quick open the last location: ";
+        quickOptionString.append(_previousLocation);
+        
+        MenuOption *quickOption = new MenuOption('*',quickOptionString,MenuSystem::ADDREMOVE);
+        options.push_back(quickOption);
+    }
     
-    MenuOption *quickOption = new MenuOption('*',quickOptionString,MenuSystem::ADDREMOVE);
-    options.push_back(quickOption);
     MenuOption *addOption = new MenuOption('a',"Add or Remove directories from locations",MenuSystem::ADDREMOVE);
     options.push_back(addOption);
     MenuOption *exitOption = new MenuOption('e',"Exit the program.",MenuSystem::EXIT);
@@ -62,12 +66,14 @@ void LocationsMenu::displayLocations()
 
 bool LocationsMenu::openShell(const char *directory)
 {
-    int val;
-    if((val = chdir(directory)) != 0)
+
+    if(chdir(directory) != 0)
+    {
+        cout << "Error: " << strerror(errno) << endl;
         return false;
+    }
     else
     {
-        cout << "Here is the returned val: " << val << endl;
         clearScreen();
         cout << "Opening bash in directory: " << directory << endl;
         system("bash");
@@ -81,7 +87,10 @@ void LocationsMenu::startInterface()
         _locations = _menuSystem->updateLocations();
     
     Menu::startInterface();
-    displayLocations();
+
+    if (!_locations.empty())
+        displayLocations();
+    
     displayOptions();
 }
 
@@ -89,7 +98,10 @@ void LocationsMenu::displayMenu()
 {
         
     clearScreen();
-    displayLocations();
+    
+    if (!_locations.empty())
+        displayLocations();
+    
     displayOptions();
 }
 

@@ -30,7 +30,9 @@ public:
         ADDREMOVE,
         ADDNEWDIR,
         ADDCURRENTDIR,
-        REMOVEDIR
+        REMOVEDIR,
+        ENTERDIR,
+        ADDENTERED
     }MenuType;
     
     // Keys for Accessing the configuration file
@@ -81,6 +83,8 @@ private:
     static const string CONFIGURATION_FILE_NAME;
     
     static const string STORAGE_PATH;
+    
+    bool setupDirectory(string directoryLocation);
     
     // Get the initial set of locations from the file
     void loadLocations();

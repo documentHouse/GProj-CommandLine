@@ -8,8 +8,9 @@
 
 #include <iostream>
 #include <string>
+#include <sys/stat.h>
+#include <getopt.h>
 #include "MenuSystem.h"
-#include "sys/stat.h"
 using namespace std;
 
 
@@ -28,8 +29,20 @@ int main (int argc, const char * argv[])
     ret = mkdir("/Users/andrew/BundleDir/Space Dir", S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO);
     printf("The value of the return value is %d\n",ret);
  */
-      
+    /*
+    struct stat sb;
+    string dir = "/Users/andy/fakedir/";
+    if(stat(dir.c_str(),&sb) == 0)
+        cout << "The file passed the test" << endl;
+    else
+        cout << "The file failed the test" << endl;
     
+    if(S_ISDIR(sb.st_mode))
+        cout << "We have a directory" << endl;
+    else
+        cout << "We do not have a directory" << endl;
+    */
+     
     // Starting the command line version of the application
     if(argc == 1)
     {
@@ -38,14 +51,13 @@ int main (int argc, const char * argv[])
         delete menuSystem;
     }
     // Starting the GUI version of the application
-    else if (argc == 2)
+    else if (argc >= 2)
+    {
         if(strncmp(argv[1], GUISTRING, strlen(GUISTRING)) == 0)
             cout << "Executing GProj GUI" << endl;
         else
             usageStatement();
-    // Syntax for invoking this application is incorrect
-    else
-        usageStatement();
+    }
     
     
     return 0;
